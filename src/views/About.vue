@@ -9,9 +9,8 @@
 </template>
 
 <script lang="ts">
-  import { Options, Vue } from 'vue-class-component';
 
-  export default class About extends Vue {
+  export default {
     created() {
       document.title = "About"
     }

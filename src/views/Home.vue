@@ -1,21 +1,49 @@
 <template>
   <div class="home">
     <img alt="Banner from Mc'Allans" src="../assets/Banner.jpg">
-    <Login/>
+    <Login v-if="!signUp"/>
+    <SignUp v-if="signUp"/>
+
+    <el-button v-on:click="activateSignUp(true)" v-if="!signUp">Don't have an account? <strong>Sign Up</strong> instead</el-button>
+    <el-button v-on:click="activateSignUp(false)" v-if="signUp">Already have an account? <strong>Sign In</strong> instead</el-button>
+    <p>{{ errorMessage }}</p>
   </div>
 </template>
 
 <script lang="ts">
-  import { Options, Vue } from 'vue-class-component';
-  import Login from '@/components/Login.vue'; // @ is an alias to /src
+    import { defineComponent } from 'vue'
+    import Login from '@/components/Login.vue'; // @ is an alias to /src
+    import SignUp from '@/components/SignUp.vue';
 
-  export default {
-    name: "Home",
-    created() {
-      document.title = "Home"
-    },
-    components: {
-      Login
-    }
-  }
+    const Home = defineComponent({
+        name: "Home",
+        created() {
+            document.title = "Home"
+        },
+        components: {
+            Login,
+            SignUp
+        },
+        data() {
+            return {
+                signUp: false,
+                errorMessage: "",
+            }
+        },
+        methods: {
+            activateSignUp(activate: boolean) {
+                this.signUp = activate;
+            }
+        }
+    });
+    export default Home;
 </script>
+
+<style>
+    .el-input {
+        max-width: 180px;
+    }
+    .el-input:not(:last-child) {
+        padding: 5px;
+    }
+</style>

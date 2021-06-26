@@ -1,52 +1,40 @@
 <template>
     <div>
         <p>Sign In</p>
-        <input v-model="message" placeholder="Username" class="input"/>
+        <el-input v-model="email" placeholder="Username"></el-input>
         <br>
-        <input v-model="password" placeholder="Password" class="input"/>
+        <el-input v-model="password" placeholder="Password" show-password></el-input>
         <br>
-        <button v-on:click="validate" class="input">Submit</button>
+        <el-button v-on:click="validate">Submit</el-button>
         <br>
-        <p v-on:click="activateSignUp" to="/signIn">Does not have an account? Sign Up instead</p>
-
-        <div v-if="displayed">
-            <SignUp hidden/>
-        </div>
+        <p>{{ errorMessage }}</p>
     </div>
 </template>
 
 <script lang="ts">
-    import SignUp from '@/components/SignUp.vue'; // @ is an alias to /src
+    import { defineComponent } from 'vue'
 
-    export default {
+    const Login = defineComponent({
         name: 'Login',
         data() {
             return {
-                message: "",
+                email: "",
                 password: "",
-                displayed: false
+                errorMessage: "",
             }
         },
         methods: {
             validate() {
-                this.displayed = false
+                let errMessage: string;
+
+                errMessage = (this.email.length === 0) ? "Please fill out your email" :
+                             (this.password.length === 0) ? "Please fill out your password" :
+                             "";
+                
+                this.errorMessage = errMessage;
             },
-            activateSignUp() {
-                this.displayed = true
-            }
-        },
-        components: {
-            SignUp
-        },
-        created() {
-            displayed = false;
         }
-    }
+    });
+    export default Login;
 </script>
 
-<style>
-    .input {
-        margin: 10px;
-        padding: 3px;
-    }
-</style>
