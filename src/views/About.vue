@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <p>
-      We are a team of developers also know as Dev'IT.
+      We are a team of developers also known as Dev'IT.
     </p>
     <br>
     <a href = "https://github.com/Dev-It-Team">Dev-It-Team</a>

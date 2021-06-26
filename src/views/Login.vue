@@ -12,7 +12,7 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
-    import Login from '@/components/Login.vue'; // @ is an alias to /src
+    import Login from '@/components/SignIn.vue'; // @ is an alias to /src
     import SignUp from '@/components/SignUp.vue';
 
     const Home = defineComponent({
@@ -44,6 +44,6 @@
         max-width: 180px;
     }
     .el-input:not(:last-child) {
-        padding: 5px;
+        margin: 5px;
     }
 </style>

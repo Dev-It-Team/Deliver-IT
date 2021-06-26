@@ -1,12 +1,20 @@
-<template>  
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About Us</router-link>
-    </div>
-    <router-view/>
-  </div>
+<template>
+    <AppNav/>
+    <router-view />
+    <AppFooter/>
 </template>
+
+<script>
+import AppNav from './AppNav.vue'
+import AppFooter from './AppFooter.vue'
+
+export default {
+    components: {
+        AppNav,
+        AppFooter,
+    }
+}
+</script>
 
 <style>
 #app {
