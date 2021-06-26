@@ -1,9 +1,11 @@
-<template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+<template>  
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About Us</router-link>
+    </div>
+    <router-view/>
   </div>
-  <router-view/>
 </template>
 
 <style>
@@ -16,7 +18,7 @@
 }
 
 #nav {
-  padding: 30px;
+  padding: 15px;
 }
 
 #nav a {
