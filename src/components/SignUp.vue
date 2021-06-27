@@ -13,7 +13,15 @@
         <el-form-item label="Birth Date" prop="birthDate">
             <el-date-picker type="date" placeholder="YYYY-MM-DD" format="YYYY-MM-DD" v-model="ruleForm.birthDate" style="width: 100%;"></el-date-picker>
         </el-form-item>
-        <!-- TODO: User type -->
+        <!-- User type -->
+        <p>Your Account Type</p>
+        <el-form-item label="Account Type">
+            <el-select v-model="ruleForm.userFlag" size="medium">
+                <el-option :value=0 label="Client"></el-option>
+                <el-option :value=1 label="Restaurant"></el-option>
+                <el-option :value=2 label="Delivery Man"></el-option>
+            </el-select>
+        </el-form-item>
         <p>Your Credentials</p>
         <el-form-item label="Email" prop="email">
             <el-input v-model="ruleForm.email"></el-input>
@@ -67,7 +75,8 @@
                     name: "",
                     firstName: "",
                     address: "",
-                    birthDate: ""
+                    birthDate: "",
+                    userFlag: 0,
                 },
                 errorMessage: "",
                 rules: {
