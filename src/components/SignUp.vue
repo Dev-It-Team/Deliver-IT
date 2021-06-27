@@ -34,8 +34,8 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
-    
-    
+    import AuthService from '@/services/AuthService.ts'
+    import { ElMessage } from 'element-plus';  
 
     const SignUp = defineComponent({
         name: 'SignUp',
@@ -91,32 +91,28 @@
             }
         },
         methods: {
-            async signUp() {
-                // try {
-                //     const credentials = {
-                //         Name: this.name,
-                //         FirstName: this.firstName,
-                //         Email: this.email,
-                //         Address: this.address,
-                //         Password: this.password,
-                //         BirthDate: this.birthDate,
-                //         UserFlag: 0 //TODO: Determine UserFlag dynamically
-                //     };
-                //     const response = await AuthService.signUp(credentials);
-                //     this.msg = response.msg;
-                // } catch (error) {
-                //     this.msg = error.response.data.msg;
-                // }
-            },
             submitForm(formName: string) {
-                (this as any).$refs[formName].validate((valid: any) => {
+                (this as any).$refs[formName].validate(async (valid: any) => {
                     if (valid) {
-                        alert('submit!');
+                        // copy ruleForm except passwordConfirmed
+                        const credentials = (({ PasswordConfirmed, ...o }) => o)(
+                            // Capitalize each key: val -> Key: val
+                            Object.fromEntries(Object.entries(this.ruleForm).map(([k, v]) => [k[0].toUpperCase() + k.slice(1), v]))
+                        )
+                        AuthService.signUp(credentials)
+                            .then(() => ElMessage.success('Your account has been created'))
+                            .catch((error: any) => {
+                                ElMessage.error(error.response.data.message);
+                                console.error(error.response.data?.stackTrace);
+                            });
                     } else {
-                        console.log('error submit!!');
+                        ElMessage.error('Please fix all your errors and try submitting again');
                         return false;
                     }
                 });
+            },
+            resetForm(formName: string) {
+                (this as any).$refs[formName].resetFields();
             }
         }
     });
