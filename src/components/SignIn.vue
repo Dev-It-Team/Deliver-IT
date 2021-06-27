@@ -45,7 +45,7 @@
                     };
                     const response = await AuthService.signIn(credentials);
                     const token = response.access_token;
-                    const user = await AuthService.decode(token);
+                    const user = await AuthService.decode();
 
                     this.$store.dispatch('login', { token, user });
 
