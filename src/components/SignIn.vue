@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <el-form label-width="120px" :label-position="right">
         <p>Sign In</p>
         <el-input v-model="email" placeholder="Username"></el-input>
         <br>
@@ -8,7 +8,7 @@
         <el-button v-on:click="validate">Submit</el-button>
         <br>
         <p class="danger">{{ errorMessage }}</p>
-    </div>
+    </el-form>
 </template>
 
 <script lang="ts">

@@ -40,10 +40,11 @@
 </script>
 
 <style>
-    .el-input {
-        max-width: 180px;
+    .el-form {
+        max-width: 460px;
+        margin: auto; /* center */
     }
     .el-input:not(:last-child) {
-        margin: 5px;
+        margin: 5px 0; /* top & bottom */
     }
 </style>
