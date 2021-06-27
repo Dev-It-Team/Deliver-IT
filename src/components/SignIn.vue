@@ -44,10 +44,24 @@
                         Password: this.password,
                     };
                     const response = await AuthService.signIn(credentials);
-                    const token = response.token;
-                    const user = response.user;
+                    const token = response.access_token;
+                    const user = await AuthService.decode(token);
 
                     this.$store.dispatch('login', { token, user });
+
+                    switch(user.UserFlag) {
+                        case '0':
+                            this.$router.push({ name: 'ClientHome', query: { redirect: '/clients' }});
+                            break;
+
+                        case '1':
+                            this.$router.push({ name: 'RestaurantHome', query: { redirect: '/restaurants' }});
+                            break;
+
+                        case '2':
+                            this.$router.push({ name: 'DeliveryHome', query: { redirect: '/deliveries' }});
+                            break;
+                    }
 
                 } catch (error) {
                     ElMessage.error(error.response.data.message);
