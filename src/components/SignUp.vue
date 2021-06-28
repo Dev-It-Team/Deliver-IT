@@ -1,9 +1,15 @@
 <template>
     <el-card class="box-card" style="max-width:560px">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" :label-position="right">
+        <template #header>
             <div class="card-header">
-                <span>Create your account</span>
+                <span>Sign In</span>
             </div>
+        </template>
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" :label-position="right">
+            <el-alert center :closable="false" show-icon
+                title="Please fill all the info bellow to sign up. You can't modify your account type later."
+                type="info">
+            </el-alert>
             <el-divider content-position="center">Your Personal Info</el-divider>
             <el-form-item label="First Name" prop="firstName">
                 <el-input v-model="ruleForm.firstName"></el-input>
@@ -38,12 +44,10 @@
                 <el-input type="password" v-model="ruleForm.passwordConfirmed" autocomplete="off" show-password></el-input>
             </el-form-item>
             <!-- Form buttons -->
-            <el-form-item>
-                <el-button type="primary" v-on:click="submitForm('ruleForm')">Create Account</el-button>
-                <el-button v-on:click="resetForm('ruleForm')">Reset</el-button>
-            </el-form-item>
-            <slot></slot>
-        </el-form>
+            <el-button type="primary" v-on:click="submitForm('ruleForm')">Create Account</el-button>
+            <el-button v-on:click="resetForm('ruleForm')">Reset</el-button>
+            </el-form>
+        <slot></slot>
     </el-card>
 </template>
 
@@ -56,10 +60,10 @@
         name: 'SignUp',
         
         data() {
-            let email = (rule: any, value: string, callback: Function) => {
+            const validateEmail = (rule: any, value: string, callback: Function) => {
                 return /\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+/.test(value);
             };
-            let validatePassword = (rule: any, value: string, callback: Function) => {
+            const validatePassword = (rule: any, value: string, callback: Function) => {
                 if (value !== '') {
                     if ((this as any).ruleForm.passwordConfirmed !== '') {
                         (this as any).$refs.ruleForm.validateField('passwordConfirmed');
@@ -67,7 +71,7 @@
                     callback();
                 }
             };
-            let validatePasswordConfirmed = (rule: any, value: string, callback: Function) => {
+            const validatePasswordConfirmed = (rule: any, value: string, callback: Function) => {
                 if (value !== (this as any).ruleForm.password) {
                     callback(new Error('Two inputs don\'t match!'));
                 } else {
@@ -85,7 +89,6 @@
                     birthDate: "",
                     userFlag: 0,
                 },
-                errorMessage: "",
                 rules: {
                     firstName: [ { required: true, message: 'Please input your first name', trigger: 'blur' } ],
                     name: [ { required: true, message: 'Please input your familly name', trigger: 'blur' } ],
@@ -93,7 +96,7 @@
                     birthDate: [ { required: true, message: 'Please input your birth date', trigger: 'blur' } ],
                     email: [
                         { required: true, message: 'Please input email', trigger: 'blur' },
-                        { validator: email, message: "Wrong email format", trigger: 'blur' }
+                        { validator: validateEmail, message: "Wrong email format", trigger: 'blur' }
                     ],
                     password: [
                         { required: true, message: 'Please input password', trigger: 'blur' },

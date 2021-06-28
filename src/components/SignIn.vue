@@ -1,15 +1,20 @@
 <template>
     <el-card class="box-card" style="max-width:480px">
-        <el-form label-width="120px" :label-position="right">
+        <template #header>
             <div class="card-header">
                 <span>Sign In</span>
             </div>
-            <el-input v-model="email" placeholder="your@email.com"></el-input>
-            <el-input v-model="password" placeholder="Password" show-password></el-input>
-            <el-button v-on:click="validate()" type="primary">Submit</el-button>
-            <p class="danger">{{ errorMessage }}</p>
-            <slot></slot>
-        </el-form>
+        </template>
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
+            <el-form-item label="Email" prop="email">
+                <el-input v-model="ruleForm.email"></el-input>
+            </el-form-item>
+            <el-form-item label="Password" prop="password">
+                <el-input type="password" v-model="ruleForm.password" autocomplete="off" show-password></el-input>
+            </el-form-item>
+            <el-button v-on:click="validate('ruleForm')" type="primary">Submit</el-button>
+            </el-form>
+        <slot></slot>
     </el-card>
 </template>
 
@@ -20,31 +25,41 @@
 
     const Login = defineComponent({
         name: 'SignIn',
-        props: ['filledEmail'],
+        props: {
+            filledEmail: String,
+        },
         data() {
+            const validateEmail = (rule: any, value: string, callback: Function) => {
+                return /\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+/.test(value);
+            };
             return {
-                email: this.filledEmail,
-                password: "",
+                ruleForm: {
+                    email: this.filledEmail,
+                    password: "",
+                },
                 errorMessage: "",
+                rules: {
+                    email: [
+                        { required: true, message: 'Please input email', trigger: 'blur' },
+                        { validator: validateEmail, message: "Wrong email format", trigger: 'blur' }
+                    ],
+                    password: [
+                        { required: true, message: 'Please input password', trigger: 'blur' },
+                    ]
+                }
             }
         },
         methods: {
-            validate() {
-                let errMessage: string;
-
-                errMessage = (this.email.length === 0) ? "Please fill out your email" :
-                             (this.password.length === 0) ? "Please fill out your password" :
-                             "";
-                
-                this.errorMessage = errMessage;
-
-                if (!errMessage) this.signIn();
+            validate(formName: string) {
+                (this as any).$refs[formName].validate(async (valid: any) => {
+                    if (valid) this.signIn();
+                });
             },
             async signIn() {
                 try {
                     const credentials = {
-                        Email: this.email,
-                        Password: this.password,
+                        Email: this.ruleForm.email,
+                        Password: this.ruleForm.password,
                     };
                     // Sign In and save token
                     const response = await AuthService.signIn(credentials);

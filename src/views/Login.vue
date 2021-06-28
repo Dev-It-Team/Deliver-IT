@@ -3,12 +3,12 @@
     <img alt="Banner from Mc'Allans" src="../assets/Banner.jpg">
 
         <SignIn v-if="!signUp" v-bind:filledEmail="filledEmail">
-            <el-button v-on:click="activateSignUp(true)">
+            <el-button v-on:click="activateSignUp(true)" class="button-login-form-toogler">
                 Don't have an account? <strong>Sign Up</strong> instead
             </el-button>
         </SignIn>
         <SignUp v-if="signUp" v-on:signed-up="signInAfterSignUp">
-            <el-button v-on:click="activateSignUp(false)">
+            <el-button v-on:click="activateSignUp(false)" class="button-login-form-toogler">
                 Already have an account? <strong>Sign In</strong> instead
             </el-button>
         </SignUp>
@@ -59,5 +59,8 @@
     }
     .el-input:not(:last-child) {
         margin: 5px 0; /* top & bottom */
+    }
+    .button-login-form-toogler {
+        margin-top: 20px !important;
     }
 </style>
