@@ -4,9 +4,9 @@
             <div class="card-header">
                 <span>Sign In</span>
             </div>
-            <el-input v-model="email" placeholder="Username"></el-input>
+            <el-input v-model="email" placeholder="your@email.com"></el-input>
             <el-input v-model="password" placeholder="Password" show-password></el-input>
-            <el-button v-on:click="validate">Submit</el-button>
+            <el-button v-on:click="validate()" type="primary">Submit</el-button>
             <p class="danger">{{ errorMessage }}</p>
             <slot></slot>
         </el-form>
@@ -46,11 +46,12 @@
                         Email: this.email,
                         Password: this.password,
                     };
+                    // Sign In and save token
                     const response = await AuthService.signIn(credentials);
-                    const token = response.access_token;
+                    this.$store.dispatch('setToken', response.access_token);
+                    // Store user info (decoded token)
                     const user = await AuthService.decode();
-
-                    this.$store.dispatch('login', { token, user });
+                    this.$store.dispatch('setUserInfo', user);
 
                     switch(user.UserFlag) {
                         case '1':

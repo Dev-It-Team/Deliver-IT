@@ -10,7 +10,7 @@ import 'element-plus/lib/theme-chalk/index.css';
 import ElementPlus from 'element-plus';
 
 // set auth header
-Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
+// Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 
 createApp(App)
     .use(router)

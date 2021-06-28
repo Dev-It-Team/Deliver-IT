@@ -33,11 +33,14 @@ export default createStore({
         }
     },
     actions: {
-        login: ({ commit, dispatch }, { token, user }) => {
+        setToken: ({ commit, dispatch }, token: string) => {
             commit('SET_TOKEN', token);
-            commit('SET_USER', user);
             // set auth header
             Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+        },
+        setUserInfo: ({ commit, dispatch }, user) => {
+            commit('SET_USER', user);
         },
         logout: ({ commit }) => {
             commit('RESET', '');
