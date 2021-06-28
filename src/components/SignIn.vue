@@ -5,7 +5,7 @@
                 <span>Sign In</span>
             </div>
         </template>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
+        <el-form v-on:keyup.enter="validate('ruleForm')" :model="ruleForm" :rules="rules" ref="ruleForm" :hide-required-asterisk="true" label-width="120px">
             <el-form-item label="Email" prop="email">
                 <el-input v-model="ruleForm.email"></el-input>
             </el-form-item>
@@ -22,6 +22,7 @@
     import { defineComponent } from 'vue'
     import AuthService from '@/services/AuthService'
     import { ElMessage } from 'element-plus';
+    import { User } from '@/interfaces/IUser';
 
     const Login = defineComponent({
         name: 'SignIn',
@@ -34,7 +35,7 @@
             };
             return {
                 ruleForm: {
-                    email: this.filledEmail,
+                    email: this.filledEmail || "",
                     password: "",
                 },
                 errorMessage: "",
@@ -65,10 +66,12 @@
                     const response = await AuthService.signIn(credentials);
                     this.$store.dispatch('setToken', response.access_token);
                     // Store user info (decoded token)
-                    const user = await AuthService.decode();
+                    const user: User = await AuthService.decode();
                     this.$store.dispatch('setUserInfo', user);
 
-                    switch(user.UserFlag) {
+                    ElMessage.success(`Welcome back! You are logged in as ${user.Email}.`);
+
+                    switch(user.UserFlag.toString()) {
                         case '1':
                             this.$router.push({ name: 'RestaurantHome', query: { redirect: '/restaurants' }});
                             break;
@@ -83,7 +86,13 @@
                     }
 
                 } catch (error) {
-                    ElMessage.error(error.response.data.message);
+                    console.error(error);
+                    // Server-handled error
+                    if (error?.response)
+                        ElMessage.error(error.response.data.message);
+                    // Not handled error
+                    else
+                        ElMessage.error(error.message);
                 }
             }
         }

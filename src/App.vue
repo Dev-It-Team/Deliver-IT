@@ -25,8 +25,8 @@ export default {
 </script>
 
 <style>
-#app {
-    font-family: Arial,"Sans Francisco UI","Helvetica Neue",Helvetica,sans-serif;
+:root {
+    font-family: "Helvetica Neue",Helvetica,"Sans Francisco UI",Arial,sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
