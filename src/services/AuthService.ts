@@ -12,5 +12,10 @@ export default {
         return axios
             .post(url + 'login/register', credentials)
             .then(response => response.data);
+    },
+    decode(): Promise<any> {
+        return axios
+            .get(url + 'login/tokeninfo')
+            .then(response => response.data);
     }
 };
