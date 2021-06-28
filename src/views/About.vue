@@ -1,5 +1,18 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <p>
+      We are a team of developers also known as Dev'IT.
+    </p>
+    <br>
+    <a href = "https://github.com/Dev-It-Team">Dev-It-Team</a>
   </div>
 </template>
+
+<script lang="ts">
+
+  export default {
+    created() {
+      document.title = "About"
+    }
+  }
+</script>
