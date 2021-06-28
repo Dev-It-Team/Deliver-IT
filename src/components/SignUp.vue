@@ -1,48 +1,55 @@
 <template>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" :label-position="right">
-        <p>Your Personal info</p>
-        <el-form-item label="First Name" prop="firstName">
-            <el-input v-model="ruleForm.firstName"></el-input>
-        </el-form-item>
-        <el-form-item label="Name" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
-        </el-form-item>
-        <el-form-item label="Address" prop="address">
-            <el-input v-model="ruleForm.address"></el-input>
-        </el-form-item>
-        <el-form-item label="Birth Date" prop="birthDate">
-            <el-date-picker type="date" placeholder="YYYY-MM-DD" format="YYYY-MM-DD" v-model="ruleForm.birthDate" style="width: 100%;"></el-date-picker>
-        </el-form-item>
-        <!-- User type -->
-        <p>Your Account Type</p>
-        <el-form-item label="Account Type">
-            <el-select v-model="ruleForm.userFlag" size="medium">
-                <el-option :value=0 label="Client"></el-option>
-                <el-option :value=1 label="Restaurant"></el-option>
-                <el-option :value=2 label="Delivery Man"></el-option>
-            </el-select>
-        </el-form-item>
-        <p>Your Credentials</p>
-        <el-form-item label="Email" prop="email">
-            <el-input v-model="ruleForm.email"></el-input>
-        </el-form-item>
-        <el-form-item label="Password" prop="password">
-            <el-input type="password" v-model="ruleForm.password" autocomplete="off" show-password></el-input>
-        </el-form-item>
-        <el-form-item label="Confirm" prop="passwordConfirmed">
-            <el-input type="password" v-model="ruleForm.passwordConfirmed" autocomplete="off" show-password></el-input>
-        </el-form-item>
-        <!-- Form buttons -->
-        <el-form-item>
-            <el-button type="primary" v-on:click="submitForm('ruleForm')">Create Account</el-button>
-            <el-button v-on:click="resetForm('ruleForm')">Reset</el-button>
-        </el-form-item>
-    </el-form>
+    <el-card class="box-card" style="max-width:560px">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" :label-position="right">
+            <div class="card-header">
+                <span>Create your account</span>
+            </div>
+            <el-divider content-position="center">Your Personal Info</el-divider>
+            <el-form-item label="First Name" prop="firstName">
+                <el-input v-model="ruleForm.firstName"></el-input>
+            </el-form-item>
+            <el-form-item label="Name" prop="name">
+                <el-input v-model="ruleForm.name"></el-input>
+            </el-form-item>
+            <el-form-item label="Address" prop="address">
+                <el-input v-model="ruleForm.address"></el-input>
+            </el-form-item>
+            <el-form-item label="Birth Date" prop="birthDate">
+                <el-date-picker type="date" placeholder="YYYY-MM-DD" format="YYYY-MM-DD" v-model="ruleForm.birthDate" style="width: 100%;"></el-date-picker>
+            </el-form-item>
+            <!-- User type -->
+            <el-divider content-position="center">Your Account Type</el-divider>
+            <el-form-item label="Account Type">
+                <el-select v-model="ruleForm.userFlag" size="medium">
+                    <el-option :value=0 label="Client"></el-option>
+                    <el-option :value=1 label="Restaurant"></el-option>
+                    <el-option :value=2 label="Delivery Man"></el-option>
+                </el-select>
+            </el-form-item>
+            <!-- Credentials -->
+            <el-divider content-position="center">Your Credentials</el-divider>
+            <el-form-item label="Email" prop="email">
+                <el-input v-model="ruleForm.email"></el-input>
+            </el-form-item>
+            <el-form-item label="Password" prop="password">
+                <el-input type="password" v-model="ruleForm.password" autocomplete="off" show-password></el-input>
+            </el-form-item>
+            <el-form-item label="Confirm" prop="passwordConfirmed">
+                <el-input type="password" v-model="ruleForm.passwordConfirmed" autocomplete="off" show-password></el-input>
+            </el-form-item>
+            <!-- Form buttons -->
+            <el-form-item>
+                <el-button type="primary" v-on:click="submitForm('ruleForm')">Create Account</el-button>
+                <el-button v-on:click="resetForm('ruleForm')">Reset</el-button>
+            </el-form-item>
+            <slot></slot>
+        </el-form>
+    </el-card>
 </template>
 
 <script lang="ts">
     import { defineComponent } from 'vue'
-    import AuthService from '@/services/AuthService.ts'
+    import AuthService from '@/services/AuthService'
     import { ElMessage } from 'element-plus';  
 
     const SignUp = defineComponent({
@@ -107,9 +114,12 @@
                         const credentials = (({ PasswordConfirmed, ...o }) => o)(
                             // Capitalize each key: val -> Key: val
                             Object.fromEntries(Object.entries(this.ruleForm).map(([k, v]) => [k[0].toUpperCase() + k.slice(1), v]))
-                        )
+                        );
                         AuthService.signUp(credentials)
-                            .then(() => ElMessage.success('Your account has been created'))
+                            .then(() => {
+                                ElMessage.success('Your account has been created');
+                                this.$emit('signed-up', this.ruleForm.email);
+                            })
                             .catch((error: any) => {
                                 ElMessage.error(error.response.data.message);
                                 console.error(error.response.data?.stackTrace);

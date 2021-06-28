@@ -1,26 +1,29 @@
 <template>
-    <el-form label-width="120px" :label-position="right">
-        <p>Sign In</p>
-        <el-input v-model="email" placeholder="Username"></el-input>
-        <br>
-        <el-input v-model="password" placeholder="Password" show-password></el-input>
-        <br>
-        <el-button v-on:click="validate">Submit</el-button>
-        <br>
-        <p class="danger">{{ errorMessage }}</p>
-    </el-form>
+    <el-card class="box-card" style="max-width:480px">
+        <el-form label-width="120px" :label-position="right">
+            <div class="card-header">
+                <span>Sign In</span>
+            </div>
+            <el-input v-model="email" placeholder="Username"></el-input>
+            <el-input v-model="password" placeholder="Password" show-password></el-input>
+            <el-button v-on:click="validate">Submit</el-button>
+            <p class="danger">{{ errorMessage }}</p>
+            <slot></slot>
+        </el-form>
+    </el-card>
 </template>
 
 <script lang="ts">
     import { defineComponent } from 'vue'
-    import AuthService from '@/services/AuthService.ts'
+    import AuthService from '@/services/AuthService'
     import { ElMessage } from 'element-plus';
 
     const Login = defineComponent({
-        name: 'Login',
+        name: 'SignIn',
+        props: ['filledEmail'],
         data() {
             return {
-                email: "",
+                email: this.filledEmail,
                 password: "",
                 errorMessage: "",
             }
