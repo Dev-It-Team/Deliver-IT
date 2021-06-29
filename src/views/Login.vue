@@ -24,6 +24,7 @@
     import { defineComponent } from 'vue'
     import SignIn from '@/components/SignIn.vue'; // @ is an alias to /src
     import SignUp from '@/components/SignUp.vue';
+    import redirectUser from '@/router/loggedInRoutes';
 
     const Home = defineComponent({
         name: "Home",
@@ -48,6 +49,10 @@
                 this.signUp = false;
                 this.filledEmail = email;
             }
+        },
+        mounted() {
+            const user = this.$store.getters.getUser;
+            if (Object.keys(user).length > 0) redirectUser(user);
         }
     });
     export default Home;

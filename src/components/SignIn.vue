@@ -23,6 +23,7 @@
     import AuthService from '@/services/AuthService'
     import { ElMessage } from 'element-plus';
     import { User } from '@/interfaces/IUser';
+    import redirectUser from '@/router/loggedInRoutes';
 
     const Login = defineComponent({
         name: 'SignIn',
@@ -71,19 +72,7 @@
 
                     ElMessage.success(`Welcome back! You are logged in as ${user.Email}.`);
 
-                    switch(user.UserFlag.toString()) {
-                        case '1':
-                            this.$router.push({ name: 'RestaurantHome', query: { redirect: '/restaurants' }});
-                            break;
-
-                        case '2':
-                            this.$router.push({ name: 'DeliveryHome', query: { redirect: '/deliveries' }});
-                            break;
-
-                        default:
-                            this.$router.push({ name: 'ClientHome', query: { redirect: '/clients' }});
-                            break;
-                    }
+                    redirectUser(user);
 
                 } catch (error) {
                     console.error(error);
