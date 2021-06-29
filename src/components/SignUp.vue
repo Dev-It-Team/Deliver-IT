@@ -2,7 +2,7 @@
     <el-card class="box-card" style="max-width:560px">
         <template #header>
             <div class="card-header">
-                <span>Sign In</span>
+                <span>Sign Up</span>
             </div>
         </template>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" :label-position="right">
@@ -23,13 +23,16 @@
             <el-form-item label="Birth Date" prop="birthDate">
                 <el-date-picker type="date" placeholder="YYYY-MM-DD" format="YYYY-MM-DD" v-model="ruleForm.birthDate" style="width: 100%;"></el-date-picker>
             </el-form-item>
+            <el-form-item label="Patronage Code" prop="patronageCode">
+                <el-input v-model="ruleForm.patronageCode" prefix-icon="el-icon-s-promotion"></el-input>
+            </el-form-item>
             <!-- User type -->
             <el-divider content-position="center">Your Account Type</el-divider>
             <el-form-item label="Account Type">
                 <el-select v-model="ruleForm.userFlag" size="medium">
                     <el-option :value=0 label="Client"></el-option>
                     <el-option :value=1 label="Restaurant"></el-option>
-                    <el-option :value=2 label="Delivery Man"></el-option>
+                    <el-option :value=2 label="Delivery Driver"></el-option>
                 </el-select>
             </el-form-item>
             <!-- Credentials -->
@@ -78,6 +81,9 @@
                     callback();
                 }
             };
+            const validatePatronageCode = (rule: any, value: string, callback: Function) => {
+                if (value) return /[\w]/.test(value);
+            };
             return {
                 ruleForm: {
                     email: "",
@@ -87,6 +93,7 @@
                     firstName: "",
                     address: "",
                     birthDate: "",
+                    patronageCode: "",
                     userFlag: 0,
                 },
                 rules: {
@@ -105,6 +112,10 @@
                     passwordConfirmed: [
                         { required: true, message: 'Please input password again', trigger: 'blur' },
                         { validator: validatePasswordConfirmed, trigger: 'blur' },
+                    ],
+                    patronageCode: [
+                        { min: 10, message: 'Wrong length! It must be at least 10 character long', trigger: 'blur' },
+                        { validator: validatePatronageCode, message: 'Wrong format! No space or symbol allowed.', trigger: 'blur'}
                     ]
                 }
             }
