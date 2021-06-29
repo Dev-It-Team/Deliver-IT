@@ -32,7 +32,7 @@
         }
     });
 
-    export default Home;
+    export default AppNav;
 </script>
 
 <style scoped>

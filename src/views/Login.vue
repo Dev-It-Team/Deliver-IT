@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    <img alt="Banner from Mc'Allans" src="../assets/Banner.jpg">
+    <h1 class="mainTitle">
+        Deliver'IT
+    </h1>
 
         <SignIn v-if="!signUp" v-bind:filledEmail="filledEmail">
             <el-button v-on:click="activateSignUp(true)" class="button-login-form-toogler">
@@ -62,5 +64,9 @@
     }
     .button-login-form-toogler {
         margin-top: 20px !important;
+    }
+
+    .mainTitle {
+        margin-bottom: 45px;
     }
 </style>
