@@ -3,8 +3,9 @@
         <el-col :span="6"><img alt="Banner from Mc'Allans" src="./assets/Banner.jpg" class="logo"></el-col>
         <el-col :span="6"><router-link to="/" class="grid-content">Home</router-link></el-col>
         <el-col :span="6"><router-link to="/about" class ="grid-content">About Us</router-link></el-col>
-
-        <el-col :span="6" v-if="logged"><a v-on:click="logOut()" class="grid-content">LogOut</a></el-col>
+        
+        
+        <el-col :span="6" v-if="logged"><el-button v-on:click="logOut()" class="grid-content" type="text">Text Button</el-button></el-col>
         <el-col :span="6" v-else><router-link to="/" class="grid-content">Login</router-link></el-col>
     </el-row>
 </template>
@@ -12,7 +13,7 @@
 <script lang="ts">
     import { defineComponent } from 'vue'
 
-    const Home = defineComponent({
+    const AppNav = defineComponent({
         name: "AppNav",
         methods: {
             logOut() {
@@ -32,7 +33,7 @@
         }
     });
 
-    export default Home;
+    export default AppNav;
 </script>
 
 <style scoped>

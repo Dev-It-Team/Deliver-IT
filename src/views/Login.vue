@@ -3,18 +3,20 @@
     <h1 class="mainTitle">
         Deliver'IT
     </h1>
-
+    <transition name="component-fade">
         <SignIn v-if="!signUp" v-bind:filledEmail="filledEmail">
             <el-button v-on:click="activateSignUp(true)" class="button-login-form-toogler">
                 Don't have an account? <strong>Sign Up</strong> instead
             </el-button>
         </SignIn>
+    </transition>
+    <transition name="component-fade">
         <SignUp v-if="signUp" v-on:signed-up="signInAfterSignUp">
             <el-button v-on:click="activateSignUp(false)" class="button-login-form-toogler">
                 Already have an account? <strong>Sign In</strong> instead
             </el-button>
         </SignUp>
-
+    </transition>
   </div>
 </template>
 
@@ -53,6 +55,7 @@
 
 <style>
     .el-card {
+        min-width: 300px;
         margin: auto;
     }
     .el-form {
@@ -64,9 +67,18 @@
     }
     .button-login-form-toogler {
         margin-top: 20px !important;
+        white-space: normal !important;
     }
 
     .mainTitle {
         margin-bottom: 45px;
+    }
+
+    .component-fade-enter-active, .component-fade-leave-active {
+        transform: translateX(-800px);
+        position: absolute;
+    }
+    .component-fade-enter, .component-fade-leave-to {
+        opacity: 0;
     }
 </style>
