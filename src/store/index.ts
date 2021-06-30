@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
-import Axios from 'axios';
+import axios from 'axios';
 import { User } from '@/interfaces/IUser';
 
 const getDefaultState = () => {
@@ -37,8 +37,7 @@ export default createStore({
         setToken: ({ commit, dispatch }, token: string) => {
             commit('SET_TOKEN', token);
             // set auth header
-            Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         },
         setUserInfo: ({ commit, dispatch }, user: User) => {
             commit('SET_USER', user);
