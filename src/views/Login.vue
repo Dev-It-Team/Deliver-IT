@@ -4,7 +4,7 @@
         Deliver'IT
     </h1>
     <transition name="component-fade">
-        <SignIn v-if="!signUp" v-bind:filledEmail="filledEmail">
+        <SignIn v-if="!signUp" v-on:on-login-success="onLoginSuccess" v-bind:filledEmail="filledEmail">
             <el-button v-on:click="activateSignUp(true)" class="button-login-form-toogler">
                 Don't have an account? <strong>Sign Up</strong> instead
             </el-button>
@@ -22,9 +22,13 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
-    import SignIn from '@/components/SignIn.vue'; // @ is an alias to /src
+    import SignIn from '@devitteam/signin'
     import SignUp from '@/components/SignUp.vue';
     import redirectUser from '@/router/loggedInRoutes';
+    import { User } from '@/interfaces/IUser';
+    import AuthService from '@/services/AuthService';
+    import { ElMessage } from 'element-plus';
+
 
     const Home = defineComponent({
         name: "Home",
@@ -48,6 +52,16 @@
             signInAfterSignUp(email: string) {
                 this.signUp = false;
                 this.filledEmail = email;
+            },
+            async onLoginSuccess(token: string) {
+                this.$store.dispatch('setToken', token);
+
+                const user = await AuthService.decode();
+                this.$store.dispatch('setUserInfo', user);
+
+                ElMessage.success(`Welcome back! You are logged in as ${user.Email}.`);
+
+                redirectUser(user);
             }
         },
         mounted() {
