@@ -13,7 +13,7 @@
             <el-input v-model="ruleForm.productDescription"></el-input>
         </el-form-item>
         <el-form-item label="Picture">
-            <input type="file" accept="image/*" v-on:change="checkBeforeUpload">
+            <input required="true" type="file" accept="image/*" v-on:change="checkBeforeUpload">
         </el-form-item>
         <el-form-item label="Prices & Sizes (leave blank if not wanted)">
             <el-input v-model="ruleForm.productSmall" placeholder="Small Price"></el-input>
@@ -32,10 +32,13 @@
     import { ElMessage } from 'element-plus';
 
   export default {
-    name: "RestaurantCreation",
+    name: "ProductCreation",
     data(): any {
         const validateName = (rule: any, value: string, callback: Function) => {
             return /[\w',.\s]+/.test(value);
+        };
+        const validatePrice = (rule: any, value: string, callback: Function) => {
+            return /[0-9]{1,3}[.]?[0-9]{1,2}/.test(value);
         };
         return {
             ruleForm: {
@@ -60,8 +63,21 @@
                         productPicture: [
                             { required: true, message: 'Please upload a file for your product', trigger: 'blur'  },
                         ],
-                        productSizes: [
-                            { required: true, message: 'Please input sizes and prices for your product', trigger: 'blur' },
+                        productSmall: [
+                            { required: false },
+                            { validator: validatePrice, message: "Wrong product price format", trigger: 'blur' }
+                        ],
+                        productMedium: [
+                            { required: true, message: 'Please input size for your product', trigger: 'blur' },
+                            { validator: validatePrice, message: "Wrong product price format", trigger: 'blur' }
+                        ],
+                        productLarge: [
+                            { required: false },
+                            { validator: validatePrice, message: "Wrong product price format", trigger: 'blur' }
+                        ],
+                        productExtraLarge: [
+                            { required: false },
+                            { validator: validatePrice, message: "Wrong product price format", trigger: 'blur' }
                         ],
                     }
       }
@@ -85,11 +101,11 @@
             const isLt2M = file.size / 1024 / 1024 < 2;
 
             if (!isJPG) {
-                this.$message.error('Banner must be JPG or PNG format!');
+                this.$message.error('Picture must be JPG or PNG format!');
             }
 
             if (!isLt2M) {
-                this.$message.error('Banner size can not exceed 2MB!');
+                this.$message.error('Picture size can not exceed 2MB!');
             }
             
             if (isJPG && isLt2M) {
@@ -119,7 +135,7 @@
                     const uploaded = await RestaurantsService.uploadFile(formData);
                     ElMessage.success(`Product created!`);
                 } catch(error) {
-                    this.$message.error('Product file be uploaded');
+                    this.$message.error('Product file can\'t be uploaded');
                 }
             }
             catch(error) {

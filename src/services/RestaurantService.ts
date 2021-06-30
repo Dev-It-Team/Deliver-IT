@@ -52,4 +52,14 @@ export default {
             .get(url + 'restaurants/' + idRestaurant + '/menus')
             .then(response => response.data);
     },
+    createMenu(idRestaurant: String, newMenu: Object): Promise<any> {
+        return axios
+            .post(url + 'restaurants/' + idRestaurant + '/menus', newMenu)
+            .then(response => response.data);
+    },
+    deleteMenu(idRestaurant: String, idMenu: Object): Promise<any> {
+        return axios
+            .delete(url + 'restaurants/' + idRestaurant + '/menus/' + idMenu)
+            .then(response => response.data);
+    },
 };

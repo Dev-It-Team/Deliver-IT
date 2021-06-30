@@ -2,16 +2,33 @@
   <el-card class="box-card" style="max-width:560px">
     <template #header>
         <div class="card-header">
-            <span>Create your Restaurant</span>
+            <span>Create your new Menu</span>
         </div>
     </template>
     <el-form v-on:keyup.enter="submitForm('ruleForm')" :model="ruleForm" :rules="rules" ref="ruleForm" :hide-required-asterisk="true" label-width="120px">
-        <el-form-item label="Name" prop="restaurantName">
-            <el-input v-model="ruleForm.restaurantName"></el-input>
+        <el-form-item label="Name" prop="menuName">
+            <el-input v-model="ruleForm.menuName"></el-input>
         </el-form-item>
-        <el-form-item label="Banner">
-            <input type="file" accept="image/*" v-on:change="checkBeforeUpload">
+        <el-form-item label="Description" prop="menuDescription">
+            <el-input v-model="ruleForm.menuDescription"></el-input>
         </el-form-item>
+        <el-form-item label="Picture">
+            <input required="true" type="file" accept="image/*" v-on:change="checkBeforeUpload">
+        </el-form-item>
+        <el-form-item label="Price">
+            <el-input v-model="ruleForm.menuPrice"></el-input>
+        </el-form-item>
+
+        <el-checkbox-group
+            v-model="ruleForm.menuProductsChosen"
+            :min="1"
+            :max="4">
+            <el-checkbox v-for="product in products" :label="product.Name">{{product.Name}}</el-checkbox>
+        </el-checkbox-group>
+
+        <br>
+        <br>
+        
         <el-button v-on:click="submitForm('ruleForm')" type="primary">Submit</el-button>
       </el-form>
   </el-card>
@@ -20,42 +37,59 @@
 <script lang="ts">
     import axios, { AxiosResponse } from 'axios';
     import RestaurantsService from '@/services/RestaurantService';
+    import { ElMessage } from 'element-plus';
 
   export default {
-    name: "RestaurantCreation",
+    name: "MenuCreation",
     data(): any {
         const validateName = (rule: any, value: string, callback: Function) => {
             return /[\w',.\s]+/.test(value);
         };
+        const validatePrice = (rule: any, value: string, callback: Function) => {
+            return /[0-9]{1,3}[.]?[0-9]{1,2}/.test(value);
+        };
         return {
             ruleForm: {
-                        restaurantName: "",
-                        banner: "",
+                        menuName: "",
+                        menuDescription: "",
+                        menuPicture: "",
+                        menuPrice: "",
+                        menuProductsChosen: [],
+                        menuProducts: this.products
                     },
                     errorMessage: "",
                     rules: {
                         restaurantName: [
-                            { required: true, message: 'Please input a name for your restaurant', trigger: 'blur' },
-                            { validator: validateName, message: "Wrong restaurant name format", trigger: 'blur' }
+                            { required: true, message: 'Please input a name for your menu', trigger: 'blur' },
+                            { validator: validateName, message: "Wrong menu name format", trigger: 'blur' }
                         ],
-                        imageUrl: [
-                            { required: true, message: 'Please upload a file for your banner', trigger: 'blur' },
-                        ]
+                        menuDescription: [
+                            { required: false },
+                            { validator: validateName, message: "Wrong menu description format", trigger: 'blur' }
+                        ],
+                        menuPicture: [
+                            { required: true, message: 'Please upload a file for your menu', trigger: 'blur'  },
+                        ],
+                        menuPrice: [
+                            { required: true, message: 'Please input a price for your menu', trigger: 'blur' },
+                            { validator: validatePrice, message: "Wrong menu price format", trigger: 'blur' }
+                        ],
                     }
       }
+    },
+    props: {
+        id: Number,
+        products: Array
     },
     methods: {
         submitForm(formName: string) {
             (this as any).$refs[formName].validate(async (valid: any) => {
                 if (valid) {
-                    this.uploadFile();
+                    this.createProduct();
                 } else {
                     return false;
                 }
             });
-        },
-        resetForm(formName: string) {
-            (this as any).$refs[formName].resetFields();
         },
         checkBeforeUpload(e: any) {
             const file = e.target.files[0];
@@ -63,44 +97,43 @@
             const isLt2M = file.size / 1024 / 1024 < 2;
 
             if (!isJPG) {
-                this.$message.error('Banner must be JPG or PNG format!');
+                this.$message.error('Picture must be JPG or PNG format!');
             }
 
             if (!isLt2M) {
-                this.$message.error('Banner size can not exceed 2MB!');
+                this.$message.error('Picture size can not exceed 2MB!');
             }
             
             if (isJPG && isLt2M) {
-                this.ruleForm.banner = file;
+                this.ruleForm.menuPicture = file;
             }
         },
-        async uploadFile() {
-            
+        async createProduct() {
+
             let formData = new FormData();
-        
-            //Adding files to the formdata
-            formData.append("File", this.ruleForm.banner, this.ruleForm.banner.name);
+            formData.append("File", this.ruleForm.menuPicture, this.ruleForm.menuPicture.name);
 
-            const newRestaurant = {
-                NameRestaurant: this.ruleForm.restaurantName,
-                IdUser: this.$store.getters.getUser.IdUser,
-                Banner: this.ruleForm.banner.name,
+            const newMenu = {
+                Name: this.ruleForm.menuName,
+                Description: this.ruleForm.menuDescription,
+                Picture: this.ruleForm.menuPicture.name,
+                Price: this.ruleForm.menuPrice,
+                Products: this.ruleForm.menuProductsChosen
             };
-
             try {
-                console.log(this.$store.getters.isLoggedIn)
-                const created = await RestaurantsService.createRestaurant(newRestaurant);
-                console.log(created);
-                const uploaded = await RestaurantsService.uploadFile(formData);
-                console.log(uploaded);
+                const created = await RestaurantsService.createMenu(this.id, newMenu);
+
+                try {
+                    const uploaded = await RestaurantsService.uploadFile(formData);
+                    ElMessage.success(`Menu created!`);
+                } catch(error) {
+                    this.$message.error('Menu file can\'t be uploaded');
+                }
             }
             catch(error) {
-                this.$message.error('Restaurant cannot be created');
+                this.$message.error('Menu cannot be created');
             }
-        }
+        },
     },
-    created() {
-      document.title = "Acceuil Restaurants";
-    }
   }
 </script>

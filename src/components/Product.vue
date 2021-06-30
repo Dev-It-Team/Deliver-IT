@@ -24,7 +24,7 @@
         <span v-if="product.Sizes[3].ExtraLarge">ExtraLarge: {{ product.Sizes[3].ExtraLarge }} </span>
     </div>
     <br>
-    <el-button v-on:click="deleteProduct()" type="primary">Delete Product</el-button>
+    <el-button v-on:click="$emit('delete-product')" type="primary">Delete Product</el-button>
 </template>
 
 <script lang="ts">
@@ -33,19 +33,9 @@
 
     export default {
         name: "Product",
+        emits: ["delete-product"],
         props: {
             product: Object
-        },
-        methods: {
-            async deleteProduct() {
-                try {
-                    const result = await RestaurantsService.deleteProduct(this.product.IdRestaurant, this.product._id);
-                    ElMessage.success(`Product deleted!`);
-                }
-                catch(error) {
-                    this.$message.error('Product cannot be deleted');
-                }
-            }
         },
     }
 </script>
