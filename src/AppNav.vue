@@ -15,7 +15,7 @@
                 <template #dropdown>
                     <el-dropdown-menu>
                     <el-dropdown-item icon="el-icon-paperclip" v-on:click="copyPatronageCode()">Copy Patronage Code</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-paperclip" v-on:click="loadAccountPage()">Account Page</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-user" v-on:click="loadAccountPage()">Account Page</el-dropdown-item>
                     <el-dropdown-item icon="el-icon-switch-button" divided v-on:click="logOut()">Sign Out</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>

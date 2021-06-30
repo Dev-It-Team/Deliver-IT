@@ -60,7 +60,7 @@
         name: "Home",
         data() {
             return {
-                user: {} as User,
+                user: null || {} as User,
                 isDeliver: false,
                 isRestaurant: false
             }

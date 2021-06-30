@@ -53,10 +53,10 @@
     name: "RestaurantHome",
     data() {
       return {
-        productsList: [{}],
-        menusList: [{}],
+        productsList: null as any,
+        menusList: null as any,
         banner: "",
-        restaurant: {} as any,
+        restaurant: null as any,
       }
     },
     components: {
