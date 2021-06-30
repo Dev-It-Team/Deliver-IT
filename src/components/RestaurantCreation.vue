@@ -93,6 +93,7 @@
 
                 const uploaded = await RestaurantsService.uploadFile(formData);
                 ElMessage.success(`Restaurant created!`);
+                this.$emit('forceReload');
             }
             catch(error) {
                 ElMessage.error('Restaurant cannot be created');

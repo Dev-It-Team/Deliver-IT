@@ -69,9 +69,7 @@
       RestaurantUpdate
     },
     created() {
-      document.title = "Acceuil Restaurants";
-
-      console.log(this.$store.getters.isLoggedIn)
+      document.title = "Restaurants Home";
     },
     methods: {
       async deleteMenu(menu: any) {
@@ -98,18 +96,17 @@
       },
       async reload() {
         const result = await RestaurantService.getMyRestaurant({IdUser: this.$store.getters.getUser.IdUser}).finally(() => this.loading = false);
-        if (result.length > 0) {
-            this.restaurant = result[0];
-        }
+        if (result) {
+          this.restaurant = result;
+          const products = await RestaurantService.getRestaurantProducts(this.restaurant.IdRestaurant);
+          if (products.length > 0) {
+            this.productsList = products;
+          }
 
-        const products = await RestaurantService.getRestaurantProducts(this.restaurant.IdRestaurant);
-        if (products.length > 0) {
-          this.productsList = products;
-        }
-
-        const menus = await RestaurantService.getRestaurantMenus(this.restaurant.IdRestaurant);
-        if (menus.length > 0) {
-          this.menusList = menus;
+          const menus = await RestaurantService.getRestaurantMenus(this.restaurant.IdRestaurant);
+          if (menus.length > 0) {
+            this.menusList = menus;
+          }
         }
       }
     },

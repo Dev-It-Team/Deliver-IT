@@ -32,9 +32,9 @@ export default {
             .get(url + 'restaurants/', idRestaurant)
             .then(response => response.data);
     },
-    getMyRestaurant(idUser: Object): Promise<any> {
+    getMyRestaurant(idUser: String): Promise<any> {
         return axios
-            .get(url + 'restaurants/', idUser)
+            .get(url + 'restaurants/' + idUser)
             .then(response => response.data);
     },
     getRestaurantProducts(idRestaurant: String): Promise<any> {
