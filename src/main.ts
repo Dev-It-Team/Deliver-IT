@@ -3,14 +3,15 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import Axios from 'axios';
+import axios from 'axios';
 /* Other libraries */
 // Element UI Library (https://element-plus.org/#/en-US)
 import 'element-plus/lib/theme-chalk/index.css';
 import ElementPlus from 'element-plus';
 
 // set auth header
-// Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
+if (store.state.token)
+    axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 
 createApp(App)
     .use(router)
