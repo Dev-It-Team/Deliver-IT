@@ -35,8 +35,7 @@
             },
             async copyPatronageCode() {
                 try {
-                    console.log(this.$store.getters.getUser)
-                    await useClipboard().toClipboard(this.$store.getters.getUser.PatronageCode);
+                    await useClipboard().toClipboard(this.$store.getters.getUser?.PatronageCode);
                     console.log('Copied to clipboard');
                 } catch (e) {
                     console.error(e);
@@ -66,5 +65,9 @@
     .logo {
         height: 75px;
         width: 250px;
+    }
+
+    .el-dropdown-link:hover {
+        cursor: default;
     }
 </style>

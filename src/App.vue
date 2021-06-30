@@ -7,19 +7,19 @@
             <router-view />
         </el-main>
         <el-footer>
-            <AppFooter/>
+            <Footer/>
         </el-footer>
     </el-container>
 </template>
 
 <script>
 import AppNav from './AppNav.vue'
-import AppFooter from './AppFooter.vue'
+import Footer from '@devitteam/footer'
 
 export default {
     components: {
         AppNav,
-        AppFooter,
+        Footer,
     },
 }
 </script>
