@@ -30,10 +30,10 @@
     import { ElMessage } from 'element-plus';
 
 
-    const Home = defineComponent({
-        name: "Home",
+    const Login = defineComponent({
+        name: "Login",
         created() {
-            document.title = "Home"
+            document.title = "Login"
         },
         components: {
             SignIn,
@@ -69,7 +69,7 @@
             if (Object.keys(user).length > 0) redirectUser(user);
         }
     });
-    export default Home;
+    export default Login;
 </script>
 
 <style>

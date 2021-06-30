@@ -17,5 +17,15 @@ export default {
         return axios
             .get(url + 'login/tokeninfo')
             .then(response => response.data);
+    },
+    recoverUserInformation(idUser: String): Promise<any> {
+        return axios
+            .get(url + 'users/' + idUser)
+            .then(response => response.data);
+    },
+    updateUser(user: Object, idUser: String): Promise<any> {
+        return axios
+            .put(url + 'users/' + idUser, user)
+            .then(response => response.data);
     }
 };

@@ -1,7 +1,10 @@
 <template>
     <el-row :gutter="20" class="header">
         <el-col :span="6"><img alt="Banner from Mc'Allans" src="./assets/Banner.jpg" class="logo"></el-col>
-        <el-col :span="6"><router-link to="/" class="grid-content">Homepage</router-link></el-col>
+            <el-col :span="6" v-if="isRestaurant"><router-link to="/restaurants" class="grid-content">Restaurant Page</router-link></el-col>
+            <el-col :span="6" v-else-if="isDeliver"><router-link to="/deliveries" class="grid-content">Deliver Page</router-link></el-col>
+            <el-col :span="6" v-else-if="isLoggedIn"><router-link to="/clients" class="grid-content">Purchase Page</router-link></el-col>
+            <el-col :span="6" v-else><router-link to="/" class="grid-content">Homepage</router-link></el-col>
         <el-col :span="6"><router-link to="/about" class ="grid-content">About Us / Your Data</router-link></el-col>
         
         <el-col :span="6" v-if="logged">
@@ -12,6 +15,7 @@
                 <template #dropdown>
                     <el-dropdown-menu>
                     <el-dropdown-item icon="el-icon-paperclip" v-on:click="copyPatronageCode()">Copy Patronage Code</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-paperclip" v-on:click="loadAccountPage()">Account Page</el-dropdown-item>
                     <el-dropdown-item icon="el-icon-switch-button" divided v-on:click="logOut()">Sign Out</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
@@ -40,6 +44,9 @@
                 } catch (e) {
                     console.error(e);
                 }
+            },
+            loadAccountPage() {
+                this.$router.push({ name: 'Home', query: { redirect: '/home' } });
             }
         },
         computed: {
@@ -49,6 +56,22 @@
                 },
                 set: function (newValue) {
                     this.logged = newValue
+                }
+            },
+            isRestaurant: {
+                get: function () {
+                    return this.$store.getters.getUser.UserFlag == 1
+                },
+                set: function (newValue) {
+                    this.isRestaurant = newValue
+                }
+            },
+            isDeliver: {
+                get: function () {
+                    return this.$store.getters.getUser.UserFlag == 2
+                },
+                set: function (newValue) {
+                    this.isDeliver = newValue
                 }
             }
         }
