@@ -32,4 +32,24 @@ export default {
             .get(url + 'restaurants/', idUser)
             .then(response => response.data);
     },
+    getRestaurantProducts(idRestaurant: String): Promise<any> {
+        return axios
+            .get(url + 'restaurants/' + idRestaurant + '/products')
+            .then(response => response.data);
+    },
+    createProduct(idRestaurant: String, newProduct: Object): Promise<any> {
+        return axios
+            .post(url + 'restaurants/' + idRestaurant + '/products', newProduct)
+            .then(response => response.data);
+    },
+    deleteProduct(idRestaurant: String, idProduct: String): Promise<any> {
+        return axios
+            .delete(url + 'restaurants/' + idRestaurant + '/products/' + idProduct)
+            .then(response => response.data);
+    },
+    getRestaurantMenus(idRestaurant: String): Promise<any> {
+        return axios
+            .get(url + 'restaurants/' + idRestaurant + '/menus')
+            .then(response => response.data);
+    },
 };

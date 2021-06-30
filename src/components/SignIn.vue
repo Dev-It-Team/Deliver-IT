@@ -57,9 +57,6 @@
                     if (valid) this.signIn();
                 });
             },
-            async getRestaurant() {
-                return await RestaurantService.getMyRestaurant({IdUser: this.$store.getters.getUser.IdUser});
-            },
             async signIn() {
                 try {
                     const credentials = {
@@ -77,13 +74,7 @@
 
                     switch(user.UserFlag.toString()) {
                         case '1':
-                            const restaurant = await this.getRestaurant();
-                            
-                            this.$router.push({ name: 'RestaurantHome', query: { 
-                                IdRestaurant: restaurant[0].IdRestaurant,
-                                Banner: restaurant[0].Banner,
-                                NameRestaurant: restaurant[0].NameRestaurant
-                                }});
+                            this.$router.push({ name: 'RestaurantHome' });
                             break;
 
                         case '2':

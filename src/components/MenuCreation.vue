@@ -20,7 +20,6 @@
 <script lang="ts">
     import axios, { AxiosResponse } from 'axios';
     import RestaurantsService from '@/services/RestaurantService';
-    import { ElMessage } from 'element-plus';
 
   export default {
     name: "RestaurantCreation",
@@ -78,6 +77,8 @@
         async uploadFile() {
             
             let formData = new FormData();
+        
+            //Adding files to the formdata
             formData.append("File", this.ruleForm.banner, this.ruleForm.banner.name);
 
             const newRestaurant = {
@@ -87,10 +88,11 @@
             };
 
             try {
+                console.log(this.$store.getters.isLoggedIn)
                 const created = await RestaurantsService.createRestaurant(newRestaurant);
-
+                console.log(created);
                 const uploaded = await RestaurantsService.uploadFile(formData);
-                ElMessage.success(`Restaurant created!`);
+                console.log(uploaded);
             }
             catch(error) {
                 this.$message.error('Restaurant cannot be created');
