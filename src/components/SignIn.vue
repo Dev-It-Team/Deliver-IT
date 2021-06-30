@@ -21,6 +21,7 @@
 <script lang="ts">
     import { defineComponent } from 'vue'
     import AuthService from '@/services/AuthService'
+    import RestaurantService from '@/services/RestaurantService';
     import { ElMessage } from 'element-plus';
     import { User } from '@/interfaces/IUser';
 
@@ -56,6 +57,9 @@
                     if (valid) this.signIn();
                 });
             },
+            async getRestaurant() {
+                return await RestaurantService.getMyRestaurant({IdUser: this.$store.getters.getUser.IdUser});
+            },
             async signIn() {
                 try {
                     const credentials = {
@@ -73,7 +77,13 @@
 
                     switch(user.UserFlag.toString()) {
                         case '1':
-                            this.$router.push({ name: 'RestaurantHome', query: { redirect: '/restaurants' }});
+                            const restaurant = await this.getRestaurant();
+                            
+                            this.$router.push({ name: 'RestaurantHome', query: { 
+                                IdRestaurant: restaurant[0].IdRestaurant,
+                                Banner: restaurant[0].Banner,
+                                NameRestaurant: restaurant[0].NameRestaurant
+                                }});
                             break;
 
                         case '2':

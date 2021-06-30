@@ -1,5 +1,5 @@
 // src/services/AuthService.js
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 const url = 'http://localhost:3000/';
 
 export default {

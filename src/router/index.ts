@@ -24,7 +24,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/restaurants',
     name: 'RestaurantHome',
-    component: RestaurantHome
+    component: RestaurantHome,
+    props(route) {
+      return { 
+        IdRestaurant: route.query.IdRestaurant,
+        Banner: route.query.Banner,
+        NameRestaurant: route.query.NameRestaurant
+      }
+    }
   },
   {
     path: '/deliveries',
