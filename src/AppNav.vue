@@ -1,8 +1,8 @@
 <template>
     <el-row :gutter="20" class="header">
         <el-col :span="6"><img alt="Banner from Mc'Allans" src="./assets/Banner.jpg" class="logo"></el-col>
-        <el-col :span="6"><router-link to="/" class="grid-content">Home</router-link></el-col>
-        <el-col :span="6"><router-link to="/about" class ="grid-content">About Us</router-link></el-col>
+        <el-col :span="6"><router-link to="/" class="grid-content">Homepage</router-link></el-col>
+        <el-col :span="6"><router-link to="/about" class ="grid-content">About Us / Your Data</router-link></el-col>
         
         <el-col :span="6" v-if="logged">
             <el-dropdown>

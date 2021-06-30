@@ -49,6 +49,10 @@
             <!-- Form buttons -->
             <el-button type="primary" v-on:click="submitForm('ruleForm')">Create Account</el-button>
             <el-button v-on:click="resetForm('ruleForm')">Reset</el-button>
+
+            <p>
+                By using Deliver'IT you consent to respect our guidelines available <a href="https://dev-it-team.github.io/AP-IT-Doc/index.html">here</a>.
+            </p>
             </el-form>
         <slot></slot>
     </el-card>
