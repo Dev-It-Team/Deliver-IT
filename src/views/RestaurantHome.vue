@@ -95,7 +95,7 @@
           }
       },
       async reload() {
-        const result = await RestaurantService.getMyRestaurant({IdUser: this.$store.getters.getUser.IdUser}).finally(() => this.loading = false);
+        const result = await RestaurantService.getMyRestaurant(this.$store.getters.getUser.IdUser).finally(() => this.loading = false);
         if (result) {
           this.restaurant = result;
           const products = await RestaurantService.getRestaurantProducts(this.restaurant.IdRestaurant);
