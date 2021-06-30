@@ -8,6 +8,11 @@ export default {
             .post(url + 'restaurants/', newRestaurant)
             .then(response => response.data);
     },
+    updateRestaurant(newRestaurant: Object, idRestaurant: String): Promise<any> { 
+        return axios
+            .put(url + 'restaurants/' + idRestaurant, newRestaurant)
+            .then(response => response.data);
+    },
     uploadFile(newFile: Object): Promise<any> { 
         return axios
             .post(url + 'upload/', newFile, {
@@ -42,6 +47,11 @@ export default {
             .post(url + 'restaurants/' + idRestaurant + '/products', newProduct)
             .then(response => response.data);
     },
+    updateProduct(idRestaurant: String, newProduct: Object, idProduct: String): Promise<any> {
+        return axios
+            .put(url + 'restaurants/' + idRestaurant + '/products/' + idProduct, newProduct)
+            .then(response => response.data);
+    },
     deleteProduct(idRestaurant: String, idProduct: String): Promise<any> {
         return axios
             .delete(url + 'restaurants/' + idRestaurant + '/products/' + idProduct)
@@ -55,6 +65,11 @@ export default {
     createMenu(idRestaurant: String, newMenu: Object): Promise<any> {
         return axios
             .post(url + 'restaurants/' + idRestaurant + '/menus', newMenu)
+            .then(response => response.data);
+    },
+    updateMenu(idRestaurant: String, newMenu: Object, idMenu: String): Promise<any> {
+        return axios
+            .post(url + 'restaurants/' + idRestaurant + '/menus/' + idMenu, newMenu)
             .then(response => response.data);
     },
     deleteMenu(idRestaurant: String, idMenu: Object): Promise<any> {

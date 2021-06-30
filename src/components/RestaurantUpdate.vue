@@ -1,10 +1,11 @@
 <template>
   <el-card class="box-card" style="max-width:560px">
     <template #header>
-        <div class="card-header">
-            <span>Create your Restaurant</span>
+        <div v-on:click="hide()" class="card-header">
+            <span>Update your Restaurant information</span>
         </div>
     </template>
+    <div v-if="!hidden">
     <el-form v-on:keyup.enter="submitForm('ruleForm')" :model="ruleForm" :rules="rules" ref="ruleForm" :hide-required-asterisk="true" label-width="120px">
         <el-form-item label="Name" prop="restaurantName">
             <el-input v-model="ruleForm.restaurantName"></el-input>
@@ -12,8 +13,9 @@
         <el-form-item label="Banner">
             <input type="file" accept="image/*" v-on:change="checkBeforeUpload">
         </el-form-item>
-        <el-button v-on:click="submitForm('ruleForm')" type="primary">Submit</el-button>
+        <el-button v-on:click="submitForm('ruleForm')" type="primary">Update</el-button>
       </el-form>
+    </div>
   </el-card>
 </template>
 
@@ -23,13 +25,14 @@
     import { ElMessage } from 'element-plus';
 
   export default {
-    name: "RestaurantCreation",
+    name: "RestaurantUpdate",
     emits: ["forceReload"],
     data(): any {
         const validateName = (rule: any, value: string, callback: Function) => {
             return /[\w',.\s]+/.test(value);
         };
         return {
+            hidden: true,
             ruleForm: {
                         restaurantName: "",
                         banner: "",
@@ -46,6 +49,9 @@
                     }
       }
     },
+    props: {
+        restaurantId: Number
+    },
     methods: {
         submitForm(formName: string) {
             (this as any).$refs[formName].validate(async (valid: any) => {
@@ -55,6 +61,9 @@
                     return false;
                 }
             });
+        },
+        hide() {
+            this.hidden = !this.hidden;
         },
         resetForm(formName: string) {
             (this as any).$refs[formName].resetFields();
@@ -88,18 +97,15 @@
             };
 
             try {
-                const created = await RestaurantsService.createRestaurant(newRestaurant);
+                const created = await RestaurantsService.updateRestaurant(newRestaurant, restaurantId);
 
                 const uploaded = await RestaurantsService.uploadFile(formData);
-                ElMessage.success(`Restaurant created!`);
+                ElMessage.success(`Restaurant updated!`);
             }
             catch(error) {
-                this.$message.error('Restaurant cannot be created');
+                this.$message.error('Restaurant cannot be updated');
             }
         }
     },
-    created() {
-      document.title = "Acceuil Restaurants";
-    }
   }
 </script>

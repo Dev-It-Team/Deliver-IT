@@ -2,7 +2,7 @@
   <el-card class="box-card" style="max-width:560px">
     <template #header>
         <div class="card-header">
-            <span>Create your new Menu</span>
+            <span>Update your Menu</span>
         </div>
     </template>
     <el-form v-on:keyup.enter="submitForm('ruleForm')" :model="ruleForm" :rules="rules" ref="ruleForm" :hide-required-asterisk="true" label-width="120px">
@@ -23,7 +23,7 @@
             v-model="ruleForm.menuProductsChosen"
             :min="1"
             :max="4">
-            <el-checkbox v-for="product in products" :label="product.Name">{{product.Name}}</el-checkbox>
+            <el-checkbox v-for="product in allProducts" :label="product.Name">{{product.Name}}</el-checkbox>
         </el-checkbox-group>
 
         <br>
@@ -40,7 +40,7 @@
     import { ElMessage } from 'element-plus';
 
   export default {
-    name: "MenuCreation",
+    name: "MenuUpdate",
     emits: ["forceReload"],
     data(): any {
         const validateName = (rule: any, value: string, callback: Function) => {
@@ -51,12 +51,12 @@
         };
         return {
             ruleForm: {
-                        menuName: "",
-                        menuDescription: "",
+                        menuName: this.menu.Name,
+                        menuDescription: this.menu.Description,
                         menuPicture: "",
-                        menuPrice: "",
-                        menuProductsChosen: [],
-                        menuProducts: this.products
+                        menuPrice: this.menu.Price,
+                        menuProductsChosen: this.menu.Products,
+                        menuProducts: this.allProducts
                     },
                     errorMessage: "",
                     rules: {
@@ -79,8 +79,8 @@
       }
     },
     props: {
-        id: Number,
-        products: Array
+        menu: Object,
+        allProducts: Array
     },
     methods: {
         submitForm(formName: string) {
@@ -122,18 +122,18 @@
                 Products: this.ruleForm.menuProductsChosen
             };
             try {
-                const created = await RestaurantsService.createMenu(this.id, newMenu);
+                const created = await RestaurantsService.createMenu(this.menu.IdRestaurant, newMenu, this.menu._id);
 
                 try {
                     const uploaded = await RestaurantsService.uploadFile(formData);
-                    ElMessage.success(`Menu created!`);
+                    ElMessage.success(`Menu updated!`);
                     this.$emit('forceReload');
                 } catch(error) {
                     this.$message.error('Menu file can\'t be uploaded');
                 }
             }
             catch(error) {
-                this.$message.error('Menu cannot be created');
+                this.$message.error('Menu cannot be updated');
             }
         },
     },

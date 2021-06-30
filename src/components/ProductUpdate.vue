@@ -2,7 +2,7 @@
   <el-card class="box-card" style="max-width:560px">
     <template #header>
         <div class="card-header">
-            <span>Create your new Product</span>
+            <span>Update your product</span>
         </div>
     </template>
     <el-form v-on:keyup.enter="submitForm('ruleForm')" :model="ruleForm" :rules="rules" ref="ruleForm" :hide-required-asterisk="true" label-width="120px">
@@ -21,7 +21,7 @@
             <el-input v-model="ruleForm.productLarge" placeholder="Large Price"></el-input>
             <el-input v-model="ruleForm.productExtraLarge" placeholder="Extra Large Price"></el-input>
         </el-form-item>
-        <el-button v-on:click="submitForm('ruleForm')" type="primary">Submit</el-button>
+        <el-button v-on:click="submitForm('ruleForm')" type="primary">Update</el-button>
       </el-form>
   </el-card>
 </template>
@@ -43,13 +43,13 @@
         };
         return {
             ruleForm: {
-                        productName: "",
-                        productDescription: "",
+                        productName: this.product.Name,
+                        productDescription: this.product.Description,
                         productPicture: "",
-                        productSmall: "",
-                        productMedium: "",
-                        productLarge: "",
-                        productExtraLarge: ""
+                        productSmall: this.product.Sizes[0].Small,
+                        productMedium: this.product.Sizes[1].Medium,
+                        productLarge: this.product.Sizes[2].Large,
+                        productExtraLarge: this.product.Sizes[3].ExtraLarge
                     },
                     errorMessage: "",
                     rules: {
@@ -84,7 +84,7 @@
       }
     },
     props: {
-        id: Number
+        product: Object
     },
     methods: {
         submitForm(formName: string) {
@@ -130,19 +130,19 @@
                 ],
             };
             try {
-                const created = await RestaurantsService.createProduct(this.id, newProduct);
+                const created = await RestaurantsService.updateProduct(this.product.IdRestaurant, newProduct, this.product._id);
 
                 try {
 
                     this.$emit('forceReload');
                     const uploaded = await RestaurantsService.uploadFile(formData);
-                    ElMessage.success(`Product created!`);
+                    ElMessage.success(`Product updated!`);
                 } catch(error) {
                     this.$message.error('Product file can\'t be uploaded');
                 }
             }
             catch(error) {
-                this.$message.error('Product cannot be created');
+                this.$message.error('Product cannot be updated');
             }
         }
     },
