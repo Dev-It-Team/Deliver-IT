@@ -97,10 +97,11 @@
             };
 
             try {
-                const created = await RestaurantsService.updateRestaurant(newRestaurant, restaurantId);
+                const created = await RestaurantsService.updateRestaurant(newRestaurant, this.restaurantId);
 
                 const uploaded = await RestaurantsService.uploadFile(formData);
                 ElMessage.success(`Restaurant updated!`);
+                this.$emit('forceReload');
             }
             catch(error) {
                 this.$message.error('Restaurant cannot be updated');
