@@ -5,7 +5,7 @@
             <span>Update your product</span>
         </div>
     </template>
-    <el-form v-on:keyup.enter="submitForm('ruleForm')" :model="ruleForm" :rules="rules" ref="ruleForm" :hide-required-asterisk="true" label-width="120px">
+    <el-form v-on:keyup.enter="submitForm('ruleForm')" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
         <el-form-item label="Name" prop="productName">
             <el-input v-model="ruleForm.productName"></el-input>
         </el-form-item>
@@ -53,7 +53,7 @@
                     },
                     errorMessage: "",
                     rules: {
-                        restaurantName: [
+                        productName: [
                             { required: true, message: 'Please input a name for your product', trigger: 'blur' },
                             { validator: validateName, message: "Wrong product name format", trigger: 'blur' }
                         ],

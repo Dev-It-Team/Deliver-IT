@@ -5,7 +5,7 @@
             <span>Create your Restaurant</span>
         </div>
     </template>
-    <el-form v-on:keyup.enter="submitForm('ruleForm')" :model="ruleForm" :rules="rules" ref="ruleForm" :hide-required-asterisk="true" label-width="120px">
+    <el-form v-on:keyup.enter="submitForm('ruleForm')" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
         <el-form-item label="Name" prop="restaurantName">
             <el-input v-model="ruleForm.restaurantName"></el-input>
         </el-form-item>
