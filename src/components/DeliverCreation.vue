@@ -26,8 +26,9 @@
     import axios, { AxiosResponse } from 'axios';
     import DeliverService from '@/services/DeliverService';
     import { ElMessage } from 'element-plus';
+    import { defineComponent } from '@vue/runtime-core';
 
-  export default {
+    const DeliverCreation = defineComponent({
     name: "DeliverCreation",
     emits: ["forceReload"],
     data(): any {
@@ -71,5 +72,6 @@
             }
         }
     }
-  }
+  })
+  export default DeliverCreation;
 </script>

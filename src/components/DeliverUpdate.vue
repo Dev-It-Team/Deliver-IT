@@ -26,8 +26,9 @@
     import axios, { AxiosResponse } from 'axios';
     import DeliverService from '@/services/DeliverService';
     import { ElMessage } from 'element-plus';
+import { defineComponent } from '@vue/runtime-core';
 
-  export default {
+    const DeliverUpdate = defineComponent({
     name: "DeliverUpdate",
     emits: ["forceReload"],
     data(): any {
@@ -45,7 +46,7 @@
       }
     },
     props: {
-        deliver: Object
+        deliver: null as any,
     },
     methods: {
         submitForm(formName: string) {
@@ -74,5 +75,6 @@
             }
         }
     }
-  }
+  });
+  export default DeliverUpdate;
 </script>

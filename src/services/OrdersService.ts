@@ -7,9 +7,9 @@ export default {
             .post(url + orderContent.IdUser + "/orders/", orderContent)
             .then(response => response.data);
     },
-    getOrders(idUser: string, idOrder?: string): Promise<any> {
+    getOrders(idUser: Number): Promise<any> {
         return axios
-            .get(url + idUser + "/orders/" + idOrder)
+            .get(url + idUser + "/orders/")
             .then(response => response.data);
     },
 }
