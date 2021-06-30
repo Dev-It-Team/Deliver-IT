@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@devitteam/footer": "^1.1.1",
+    "@devitteam/signin": "^3.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "element-plus": "^1.0.2-beta.53",

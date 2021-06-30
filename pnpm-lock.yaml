@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@devitteam/footer': ^1.1.1
+  '@devitteam/signin': ^3.0.0
   '@vue/cli-plugin-babel': ~4.5.0
   '@vue/cli-plugin-router': ~4.5.0
   '@vue/cli-plugin-typescript': ~4.5.0
@@ -21,6 +22,7 @@ specifiers:
 
 dependencies:
   '@devitteam/footer': 1.1.1
+  '@devitteam/signin': 3.0.0
   axios: 0.21.1
   core-js: 3.14.0
   element-plus: 1.0.2-beta.53_vue@3.1.1
@@ -1197,6 +1199,17 @@ packages:
     dependencies:
       core-js: 3.14.0
       vue: 3.1.1
+    dev: false
+
+  /@devitteam/signin/3.0.0:
+    resolution: {integrity: sha512-UveVoBBzekH684fX/tvgQ89KkkoIogp/ML+rMWst0FlhejchqO4x0F+Iel62XuSKXk5KTMbuhMg+10GuZZSGWg==}
+    dependencies:
+      axios: 0.21.1
+      core-js: 3.14.0
+      element-plus: 1.0.2-beta.53_vue@3.1.1
+      vue: 3.1.1
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /@hapi/address/2.1.4:
@@ -4160,6 +4173,19 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
+
+  /follow-redirects/1.14.1_debug@4.3.1:
+    resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.1
+    dev: true
 
   /for-in/1.0.2:
     resolution: {integrity: sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=}
@@ -4716,7 +4742,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.1
+      follow-redirects: 1.14.1_debug@4.3.1
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
