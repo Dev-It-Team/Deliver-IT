@@ -46,7 +46,7 @@
             ruleForm: {
                 productName: "",
                 productDescription: "",
-                productPicture: "",
+                productPicture: null as any,
                 productSmall: "",
                 productMedium: "",
                 productLarge: "",

@@ -1,6 +1,7 @@
 <template>
-  <RestaurantCreation v-if="!restaurant" v-on:forceReload="reload"/>
-  <div v-else>
+  <div v-loading="loading"></div>
+  <RestaurantCreation v-if="!restaurant && !loading" v-on:forceReload="reload"/>
+  <div v-else-if="restaurant && !loading">
     <br>
     <RestaurantUpdate v-bind:restaurantId="restaurant.IdRestaurant" v-on:forceReload="reload"/>
     <br>
@@ -34,7 +35,6 @@
         <Menu v-bind:menu="menu" :allProducts="productsList" v-on:delete-menu="deleteMenu(menu._id)"/>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -57,6 +57,7 @@
         menusList: null as any,
         banner: "",
         restaurant: null as any,
+        loading: true,
       }
     },
     components: {
@@ -96,7 +97,7 @@
           }
       },
       async reload() {
-        const result = await RestaurantService.getMyRestaurant({IdUser: this.$store.getters.getUser.IdUser});
+        const result = await RestaurantService.getMyRestaurant({IdUser: this.$store.getters.getUser.IdUser}).finally(() => this.loading = false);
         if (result.length > 0) {
             this.restaurant = result[0];
         }
