@@ -23,7 +23,7 @@
             v-model="ruleForm.menuProductsChosen"
             :min="1"
             :max="4">
-            <el-checkbox v-for="product in allProducts" :label="product.Name">{{product.Name}}</el-checkbox>
+            <el-checkbox v-for="product in allProducts" v-bind:key="product._id" :label="product.Name">{{product.Name}}</el-checkbox>
         </el-checkbox-group>
 
         <br>
@@ -38,8 +38,9 @@
     import axios, { AxiosResponse } from 'axios';
     import RestaurantsService from '@/services/RestaurantService';
     import { ElMessage } from 'element-plus';
+    import { defineComponent } from '@vue/runtime-core';
 
-  export default {
+    const MenuUpdate = defineComponent({
     name: "MenuUpdate",
     emits: ["forceReload"],
     data(): any {
@@ -51,35 +52,35 @@
         };
         return {
             ruleForm: {
-                        menuName: this.menu.Name,
-                        menuDescription: this.menu.Description,
-                        menuPicture: "",
-                        menuPrice: this.menu.Price,
-                        menuProductsChosen: this.menu.Products,
-                        menuProducts: this.allProducts
-                    },
-                    errorMessage: "",
-                    rules: {
-                        restaurantName: [
-                            { required: true, message: 'Please input a name for your menu', trigger: 'blur' },
-                            { validator: validateName, message: "Wrong menu name format", trigger: 'blur' }
-                        ],
-                        menuDescription: [
-                            { required: false },
-                            { validator: validateName, message: "Wrong menu description format", trigger: 'blur' }
-                        ],
-                        menuPicture: [
-                            { required: true, message: 'Please upload a file for your menu', trigger: 'blur'  },
-                        ],
-                        menuPrice: [
-                            { required: true, message: 'Please input a price for your menu', trigger: 'blur' },
-                            { validator: validatePrice, message: "Wrong menu price format", trigger: 'blur' }
-                        ],
-                    }
-      }
+                menuName: this.menu.Name,
+                menuDescription: this.menu.Description,
+                menuPicture: "",
+                menuPrice: this.menu.Price,
+                menuProductsChosen: this.menu.Products,
+                menuProducts: this.allProducts
+            },
+            errorMessage: "",
+            rules: {
+                restaurantName: [
+                    { required: true, message: 'Please input a name for your menu', trigger: 'blur' },
+                    { validator: validateName, message: "Wrong menu name format", trigger: 'blur' }
+                ],
+                menuDescription: [
+                    { required: false },
+                    { validator: validateName, message: "Wrong menu description format", trigger: 'blur' }
+                ],
+                menuPicture: [
+                    { required: true, message: 'Please upload a file for your menu', trigger: 'blur'  },
+                ],
+                menuPrice: [
+                    { required: true, message: 'Please input a price for your menu', trigger: 'blur' },
+                    { validator: validatePrice, message: "Wrong menu price format", trigger: 'blur' }
+                ],
+            }
+        }
     },
     props: {
-        menu: Object,
+        menu: {} as any,
         allProducts: Array
     },
     methods: {
@@ -98,11 +99,11 @@
             const isLt2M = file.size / 1024 / 1024 < 2;
 
             if (!isJPG) {
-                this.$message.error('Picture must be JPG or PNG format!');
+                ElMessage.error('Picture must be JPG or PNG format!');
             }
 
             if (!isLt2M) {
-                this.$message.error('Picture size can not exceed 2MB!');
+                ElMessage.error('Picture size can not exceed 2MB!');
             }
             
             if (isJPG && isLt2M) {
@@ -122,20 +123,21 @@
                 Products: this.ruleForm.menuProductsChosen
             };
             try {
-                const created = await RestaurantsService.createMenu(this.menu.IdRestaurant, newMenu, this.menu._id);
+                const created = await RestaurantsService.createMenu(this.menu.IdRestaurant, newMenu);
 
                 try {
                     const uploaded = await RestaurantsService.uploadFile(formData);
                     ElMessage.success(`Menu updated!`);
                     this.$emit('forceReload');
                 } catch(error) {
-                    this.$message.error('Menu file can\'t be uploaded');
+                    ElMessage.error('Menu file can\'t be uploaded');
                 }
             }
             catch(error) {
-                this.$message.error('Menu cannot be updated');
+                ElMessage.error('Menu cannot be updated');
             }
         },
     },
-  }
+  });
+  export default MenuUpdate;
 </script>

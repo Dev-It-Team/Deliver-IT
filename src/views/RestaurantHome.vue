@@ -16,7 +16,7 @@
         Your products:
       </h2>
 
-      <div v-for="product in productsList">
+      <div v-for="product in productsList" v-bind:key="product._id">
         <Product v-bind:product="product" v-on:delete-product="deleteProduct(product)" v-on:forceReload="reload"/>
       </div>
       <br>
@@ -30,8 +30,8 @@
         Your menus:
       </h2>
 
-      <div v-for="menu in menusList">
-        <Menu v-bind:menu="menu" :allProducts="productsList" v-on:delete-menu="deleteMenu(menu)"/>
+      <div v-for="menu in menusList" v-bind:key="menu._id">
+        <Menu v-bind:menu="menu" :allProducts="productsList" v-on:delete-menu="deleteMenu(menu._id)"/>
       </div>
     </div>
 
@@ -44,7 +44,6 @@
   import RestaurantUpdate from '@/components/RestaurantUpdate.vue';
   import ProductCreation from '@/components/ProductCreation.vue';
   import MenuCreation from '@/components/MenuCreation.vue';
-  import RestaurantCreation from '@/components/RestaurantCreation.vue';
   import Product from '@/components/Product.vue';
   import Menu from '@/components/Menu.vue';
   import RestaurantService from '@/services/RestaurantService';
@@ -54,10 +53,10 @@
     name: "RestaurantHome",
     data() {
       return {
-        productsList: null,
-        menusList: null,
-        banner: null,
-        restaurant: null,
+        productsList: [{}],
+        menusList: [{}],
+        banner: "",
+        restaurant: {} as any,
       }
     },
     components: {
@@ -74,7 +73,7 @@
       console.log(this.$store.getters.isLoggedIn)
     },
     methods: {
-      async deleteMenu(menu) {
+      async deleteMenu(menu: any) {
         try {
           const result = await RestaurantService.deleteMenu(this.restaurant.IdRestaurant, menu._id);
           ElMessage.success(`Menu deleted!`);
@@ -82,10 +81,10 @@
           await this.reload();
         }
         catch(error) {
-            this.$message.error('Menu cannot be deleted');
+            ElMessage.error('Menu cannot be deleted');
         }
       },
-      async deleteProduct(product) {
+      async deleteProduct(product: any) {
           try {
             const result = await RestaurantService.deleteProduct(this.restaurant.IdRestaurant, product._id);
             ElMessage.success(`Product deleted!`);
@@ -93,12 +92,14 @@
             await this.reload();
           }
           catch(error) {
-              this.$message.error('Product cannot be deleted');
+              ElMessage.error('Product cannot be deleted');
           }
       },
       async reload() {
         const result = await RestaurantService.getMyRestaurant({IdUser: this.$store.getters.getUser.IdUser});
-        this.restaurant = result[0];
+        if (result.length > 0) {
+            this.restaurant = result[0];
+        }
 
         const products = await RestaurantService.getRestaurantProducts(this.restaurant.IdRestaurant);
         if (products.length > 0) {

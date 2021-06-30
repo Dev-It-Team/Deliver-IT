@@ -20,11 +20,12 @@
 </template>
 
 <script lang="ts">
+    import { defineComponent } from 'vue';
     import axios, { AxiosResponse } from 'axios';
     import RestaurantsService from '@/services/RestaurantService';
     import { ElMessage } from 'element-plus';
 
-  export default {
+  const RestaurantUpdate = defineComponent({
     name: "RestaurantUpdate",
     emits: ["forceReload"],
     data(): any {
@@ -74,11 +75,11 @@
             const isLt2M = file.size / 1024 / 1024 < 2;
 
             if (!isJPG) {
-                this.$message.error('Banner must be JPG or PNG format!');
+                ElMessage.error('Banner must be JPG or PNG format!');
             }
 
             if (!isLt2M) {
-                this.$message.error('Banner size can not exceed 2MB!');
+                ElMessage.error('Banner size can not exceed 2MB!');
             }
             
             if (isJPG && isLt2M) {
@@ -104,9 +105,10 @@
                 this.$emit('forceReload');
             }
             catch(error) {
-                this.$message.error('Restaurant cannot be updated');
+                ElMessage.error('Restaurant cannot be updated');
             }
         }
     },
-  }
+  });
+  export default RestaurantUpdate;
 </script>

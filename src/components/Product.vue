@@ -33,10 +33,11 @@
 
 <script lang="ts">
     import RestaurantsService from '@/services/RestaurantService';
-    import ProductUpdate from '@/components/ProductUpdate';
+    import ProductUpdate from '@/components/ProductUpdate.vue';
     import { ElMessage } from 'element-plus';
+    import { defineComponent } from '@vue/runtime-core';
 
-    export default {
+    const Product = defineComponent({
         name: "Product",
         components: {
             ProductUpdate
@@ -55,5 +56,6 @@
                 this.hidden = !this.hidden;
             },
         }
-    }
+    });
+    export default Product;
 </script>

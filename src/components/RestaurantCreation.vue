@@ -18,33 +18,34 @@
 </template>
 
 <script lang="ts">
+    import { defineComponent } from 'vue';
     import axios, { AxiosResponse } from 'axios';
     import RestaurantsService from '@/services/RestaurantService';
     import { ElMessage } from 'element-plus';
 
-  export default {
+  const RestaurantCreation = defineComponent({
     name: "RestaurantCreation",
     emits: ["forceReload"],
-    data(): any {
+    data() {
         const validateName = (rule: any, value: string, callback: Function) => {
             return /[\w',.\s]+/.test(value);
         };
         return {
             ruleForm: {
-                        restaurantName: "",
-                        banner: "",
-                    },
-                    errorMessage: "",
-                    rules: {
-                        restaurantName: [
-                            { required: true, message: 'Please input a name for your restaurant', trigger: 'blur' },
-                            { validator: validateName, message: "Wrong restaurant name format", trigger: 'blur' }
-                        ],
-                        imageUrl: [
-                            { required: true, message: 'Please upload a file for your banner', trigger: 'blur' },
-                        ]
-                    }
-      }
+                restaurantName: "",
+                banner: Object as any,
+            },
+            errorMessage: "",
+            rules: {
+                restaurantName: [
+                    { required: true, message: 'Please input a name for your restaurant', trigger: 'blur' },
+                    { validator: validateName, message: "Wrong restaurant name format", trigger: 'blur' }
+                ],
+                imageUrl: [
+                    { required: true, message: 'Please upload a file for your banner', trigger: 'blur' },
+                ]
+            },
+        }
     },
     methods: {
         submitForm(formName: string) {
@@ -65,11 +66,11 @@
             const isLt2M = file.size / 1024 / 1024 < 2;
 
             if (!isJPG) {
-                this.$message.error('Banner must be JPG or PNG format!');
+                ElMessage.error('Banner must be JPG or PNG format!');
             }
 
             if (!isLt2M) {
-                this.$message.error('Banner size can not exceed 2MB!');
+                ElMessage.error('Banner size can not exceed 2MB!');
             }
             
             if (isJPG && isLt2M) {
@@ -94,12 +95,13 @@
                 ElMessage.success(`Restaurant created!`);
             }
             catch(error) {
-                this.$message.error('Restaurant cannot be created');
+                ElMessage.error('Restaurant cannot be created');
             }
         }
     },
     created() {
       document.title = "Acceuil Restaurants";
     }
-  }
+  });
+  export default RestaurantCreation;
 </script>

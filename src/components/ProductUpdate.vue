@@ -27,11 +27,12 @@
 </template>
 
 <script lang="ts">
+    import { defineComponent } from 'vue';
     import axios, { AxiosResponse } from 'axios';
     import RestaurantsService from '@/services/RestaurantService';
     import { ElMessage } from 'element-plus';
 
-  export default {
+    const ProductCreation = defineComponent({
     name: "ProductCreation",
     emits: ["forceReload"],
     data(): any {
@@ -43,48 +44,48 @@
         };
         return {
             ruleForm: {
-                        productName: this.product.Name,
-                        productDescription: this.product.Description,
-                        productPicture: "",
-                        productSmall: this.product.Sizes[0].Small,
-                        productMedium: this.product.Sizes[1].Medium,
-                        productLarge: this.product.Sizes[2].Large,
-                        productExtraLarge: this.product.Sizes[3].ExtraLarge
-                    },
-                    errorMessage: "",
-                    rules: {
-                        productName: [
-                            { required: true, message: 'Please input a name for your product', trigger: 'blur' },
-                            { validator: validateName, message: "Wrong product name format", trigger: 'blur' }
-                        ],
-                        productDescription: [
-                            { required: false },
-                            { validator: validateName, message: "Wrong product description format", trigger: 'blur' }
-                        ],
-                        productPicture: [
-                            { required: true, message: 'Please upload a file for your product', trigger: 'blur'  },
-                        ],
-                        productSmall: [
-                            { required: false },
-                            { validator: validatePrice, message: "Wrong product price format", trigger: 'blur' }
-                        ],
-                        productMedium: [
-                            { required: true, message: 'Please input size for your product', trigger: 'blur' },
-                            { validator: validatePrice, message: "Wrong product price format", trigger: 'blur' }
-                        ],
-                        productLarge: [
-                            { required: false },
-                            { validator: validatePrice, message: "Wrong product price format", trigger: 'blur' }
-                        ],
-                        productExtraLarge: [
-                            { required: false },
-                            { validator: validatePrice, message: "Wrong product price format", trigger: 'blur' }
-                        ],
-                    }
-      }
+                productName: this.product.Name,
+                productDescription: this.product.Description,
+                productPicture: "",
+                productSmall: this.product.Sizes[0].Small,
+                productMedium: this.product.Sizes[1].Medium,
+                productLarge: this.product.Sizes[2].Large,
+                productExtraLarge: this.product.Sizes[3].ExtraLarge
+            },
+            errorMessage: "",
+            rules: {
+                productName: [
+                    { required: true, message: 'Please input a name for your product', trigger: 'blur' },
+                    { validator: validateName, message: "Wrong product name format", trigger: 'blur' }
+                ],
+                productDescription: [
+                    { required: false },
+                    { validator: validateName, message: "Wrong product description format", trigger: 'blur' }
+                ],
+                productPicture: [
+                    { required: true, message: 'Please upload a file for your product', trigger: 'blur'  },
+                ],
+                productSmall: [
+                    { required: false },
+                    { validator: validatePrice, message: "Wrong product price format", trigger: 'blur' }
+                ],
+                productMedium: [
+                    { required: true, message: 'Please input size for your product', trigger: 'blur' },
+                    { validator: validatePrice, message: "Wrong product price format", trigger: 'blur' }
+                ],
+                productLarge: [
+                    { required: false },
+                    { validator: validatePrice, message: "Wrong product price format", trigger: 'blur' }
+                ],
+                productExtraLarge: [
+                    { required: false },
+                    { validator: validatePrice, message: "Wrong product price format", trigger: 'blur' }
+                ],
+            }
+        }
     },
     props: {
-        product: Object
+        product: {} as any
     },
     methods: {
         submitForm(formName: string) {
@@ -102,11 +103,11 @@
             const isLt2M = file.size / 1024 / 1024 < 2;
 
             if (!isJPG) {
-                this.$message.error('Picture must be JPG or PNG format!');
+                ElMessage.error('Picture must be JPG or PNG format!');
             }
 
             if (!isLt2M) {
-                this.$message.error('Picture size can not exceed 2MB!');
+                ElMessage.error('Picture size can not exceed 2MB!');
             }
             
             if (isJPG && isLt2M) {
@@ -138,13 +139,14 @@
                     const uploaded = await RestaurantsService.uploadFile(formData);
                     ElMessage.success(`Product updated!`);
                 } catch(error) {
-                    this.$message.error('Product file can\'t be uploaded');
+                    ElMessage.error('Product file can\'t be uploaded');
                 }
             }
             catch(error) {
-                this.$message.error('Product cannot be updated');
+                ElMessage.error('Product cannot be updated');
             }
         }
     },
-  }
+  });
+  export default ProductCreation;
 </script>

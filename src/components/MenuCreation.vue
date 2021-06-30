@@ -23,7 +23,7 @@
             v-model="ruleForm.menuProductsChosen"
             :min="1"
             :max="4">
-            <el-checkbox v-for="product in products" :label="product.Name">{{product.Name}}</el-checkbox>
+            <el-checkbox v-for="product in products" v-bind:key="product._id" :label="product.Name">{{product.Name}}</el-checkbox>
         </el-checkbox-group>
 
         <br>
@@ -38,8 +38,9 @@
     import axios, { AxiosResponse } from 'axios';
     import RestaurantsService from '@/services/RestaurantService';
     import { ElMessage } from 'element-plus';
+    import { defineComponent } from '@vue/runtime-core';
 
-  export default {
+    const MenuCreation = defineComponent({
     name: "MenuCreation",
     emits: ["forceReload"],
     data(): any {
@@ -98,11 +99,11 @@
             const isLt2M = file.size / 1024 / 1024 < 2;
 
             if (!isJPG) {
-                this.$message.error('Picture must be JPG or PNG format!');
+                ElMessage.error('Picture must be JPG or PNG format!');
             }
 
             if (!isLt2M) {
-                this.$message.error('Picture size can not exceed 2MB!');
+                ElMessage.error('Picture size can not exceed 2MB!');
             }
             
             if (isJPG && isLt2M) {
@@ -129,13 +130,14 @@
                     ElMessage.success(`Menu created!`);
                     this.$emit('forceReload');
                 } catch(error) {
-                    this.$message.error('Menu file can\'t be uploaded');
+                    ElMessage.error('Menu file can\'t be uploaded');
                 }
             }
             catch(error) {
-                this.$message.error('Menu cannot be created');
+                ElMessage.error('Menu cannot be created');
             }
         },
     },
-  }
+  });
+  export default MenuCreation;
 </script>

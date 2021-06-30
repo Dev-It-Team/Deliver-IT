@@ -30,7 +30,7 @@
     import useClipboard from 'vue-clipboard3'
     import AuthService from './services/AuthService';
 
-    const AppNav = defineComponent({
+    export default defineComponent({
         name: "AppNav",
         methods: {
             logOut() {
@@ -77,7 +77,7 @@
         }
     });
 
-    export default AppNav;
+    // export default AppNav;
 </script>
 
 <style scoped>

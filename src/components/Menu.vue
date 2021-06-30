@@ -10,7 +10,7 @@
     </p>
     <br>
     <p>
-      <div v-for="product in menu.Products">
+      <div v-for="product in menu.Products" v-bind:key="product._id">
         <p>
           {{ product }}
         </p>
@@ -24,29 +24,29 @@
 </template>
 
 <script lang="ts">
-  import RestaurantsService from '@/services/RestaurantService';
-  import MenuUpdate from '@/components/MenuUpdate';
-  import { ElMessage } from 'element-plus';
+    import MenuUpdate from '@/components/MenuUpdate.vue';
+    import { defineComponent } from '@vue/runtime-core';
 
-  export default {
-    name: "Menu",
-    components: {
-      MenuUpdate
-    },
-    emits: ["delete-menu", "forceReload"],
-    data() {
-      return {
-        hidden: false
-      }
-    },
-    props: {
-      menu: Object,
-      allProducts: Array
-    },
-    methods: {
-      beginUpdate() {
-        this.hidden = !this.hidden;
-      },
-    }
-  }
+    const Menu = defineComponent({
+        name: "Menu",
+        components: {
+            MenuUpdate
+        },
+        emits: ["delete-menu", "forceReload"],
+        data() {
+            return {
+                hidden: false
+            }
+        },
+        props: {
+            menu: Object,
+            allProducts: Array
+        },
+        methods: {
+            beginUpdate() {
+                this.hidden = !this.hidden;
+            },
+        }
+    });
+    export default Menu;
 </script>

@@ -54,12 +54,13 @@
     import { defineComponent } from 'vue';
     import AuthService from '../services/AuthService';
     import UserUpdate from '@/components/UserUpdate.vue';
+    import { User } from '@/interfaces/IUser';
 
     const Home = defineComponent({
         name: "Home",
         data() {
             return {
-                user: null,
+                user: {} as User,
                 isDeliver: false,
                 isRestaurant: false
             }
