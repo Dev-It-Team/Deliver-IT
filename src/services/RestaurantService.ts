@@ -20,12 +20,12 @@ export default {
     },
     getRestaurant(idRestaurant: string): Promise<any> {
         return axios
-            .get(url + 'id/' + idRestaurant)
+            .get(url + idRestaurant)
             .then(response => response.data);
     },
     getMyRestaurant(idUser: string): Promise<any> {
         return axios
-            .get(url + idUser)
+            .get(url + '/' + idUser)
             .then(response => response.data);
     },
     getRestaurantProducts(idRestaurant: string): Promise<any> {
