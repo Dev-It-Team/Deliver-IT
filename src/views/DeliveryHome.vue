@@ -10,7 +10,7 @@
     <DeliverUpdate v-bind:deliver="deliver" v-on:forceReload="reload"/>
 
     <div v-if="ordersAvailable">
-      <div v-for="order in ordersAvailable" :v-key="order._id">
+      <div v-for="order in ordersAvailable" v-bind:key="order._id">
         <Order :order="order"/>
       </div>
     </div>
