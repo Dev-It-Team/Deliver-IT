@@ -92,6 +92,11 @@
             },
             hide() {
                 this.hidden = !this.hidden;
+                this.ruleForm.userName = this.user.Name;
+                this.ruleForm.userFirstName= this.user.FirstName;
+                this.ruleForm.userEmail= this.user.Email;
+                this.ruleForm.userBirthDate= this.user.BirthDate;
+                this.ruleForm.userAddress= this.user.Address;
             },
             resetForm(formName: string) {
                 (this as any).$refs[formName].resetFields();
@@ -115,8 +120,7 @@
                 catch(error) { 
                     ElMessage.error('Your account cannot be updated'); 
                 } 
-            }
-
+            },
         },
     });
     export default UserUpdate;
