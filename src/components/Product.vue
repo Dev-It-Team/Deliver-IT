@@ -2,6 +2,13 @@
     <h3>
         {{ product.Name }}
     </h3>
+    <el-rate
+    v-model="average"
+    disabled
+    show-score
+    text-color="#ff9900"
+    score-template="{value} points">
+    </el-rate>
     <p>
         {{ product.Description }}
     </p>
@@ -45,15 +52,17 @@
         emits: ["delete-product", "forceReload"],
         data() {
             return {
-                hidden: false
+                hidden: false,
+                average: 0
             }
         },
         props: {
-            product: Object
+            product: {} as any
         },
         methods: {
             beginUpdate() {
                 this.hidden = !this.hidden;
+                this.average = this.product.Notes / this.product.VoteNb;
             },
         }
     });

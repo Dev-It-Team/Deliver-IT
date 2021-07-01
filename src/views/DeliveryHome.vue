@@ -5,6 +5,13 @@
     <h1>
       Your driver settings: {{ deliver.VehiculeType }}
     </h1>
+    <el-rate
+    v-model="average"
+    disabled
+    show-score
+    text-color="#ff9900"
+    score-template="{value} points">
+    </el-rate>
     <br>
     <br>
     <DeliverUpdate v-bind:deliver="deliver" v-on:forceReload="reload"/>
@@ -30,7 +37,8 @@
     data() {
       return {
         deliver: null as any,
-        ordersAvailable: null as any
+        ordersAvailable: null as any,
+        average: 0
       }
     },
     components: {
@@ -47,6 +55,7 @@
         
         if (result) {
           this.deliver = result;
+          this.average = this.deliver.Note / this.deliver.VoteNb;
 
           const orders = await DeliverService.getOrders(this.deliver.IdDeliveryDriver);
 

@@ -2,6 +2,13 @@
     <h3>
         {{ menu.Name }}
     </h3>
+    <el-rate
+    v-model="average"
+    disabled
+    show-score
+    text-color="#ff9900"
+    score-template="{value} points">
+    </el-rate>
     <p>
         {{ menu.Description }}
     </p>
@@ -35,21 +42,23 @@
         emits: ["delete-menu", "forceReload"],
         data() {
             return {
-                hidden: false
+                hidden: false,
+                average: 0
             }
         },
         props: {
-            menu: Object,
+            menu: {} as any,
             allProducts: Array
         },
         methods: {
             beginUpdate() {
                 this.hidden = !this.hidden;
+                this.average = this.menu.Notes / this.menu.VoteNb;
             },
             reloadForce() {
                 this.$emit('forceReload');
             }
-        }
+        },
     });
     export default Menu;
 </script>
