@@ -1,6 +1,6 @@
 <template>
     <p>
-        This command is available: {{ order.Price }} € with {{ order.Products.Lenth }} products. {{ restaurant.Name }}: {{ restaurant }} to client {{ userAddress }}
+        This command is available: {{ order.Price }} € with {{ order.Products.Lenth }} products. <div v-if="restaurant"> {{ restaurant.NameRestaurant }} from {{ restaurantAddress }} to client {{ userAddress }}</div>
     </p>
     <el-button type="primary">Take this command</el-button>
 </template>
@@ -23,25 +23,23 @@
         props: {
             order: null as any,
         },
-        methods: {
-            async mounted() {
-                const restaurant = await RestaurantService.getRestaurant(this.order.IdRestaurant);
+        async mounted() {
+            const restaurant = await RestaurantService.getRestaurant(this.order.IdRestaurant);
 
-                if (restaurant) {
-                    this.restaurant = restaurant;
+            if (restaurant) {
+                this.restaurant = restaurant;
 
-                    const userRestaurant = await AuthService.recoverUserInformation(this.restaurant.IdUser);
-                    
-                    this.restaurantAddress = userRestaurant.Address;
+                const userRestaurant = await AuthService.recoverUserInformation(this.restaurant.IdUser);
+                
+                this.restaurantAddress = userRestaurant.Address;
 
-                    const user = await AuthService.recoverUserInformation(this.order.IdUser);
+                const user = await AuthService.recoverUserInformation(this.order.IdUser);
 
-                    if (user) {
-                        this.userAddress = user.Address;
-                    }
+                if (user) {
+                    this.userAddress = user.Address;
                 }
             }
-        }
+        },
     });
     export default Order;
 </script>
