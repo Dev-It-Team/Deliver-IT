@@ -7,6 +7,12 @@
     </div>
     <!-- RESTAURANTS LIST -->
     <div v-if="!restaurantMenus">
+        <h1 v-if="restaurants">
+            Available Restaurants
+        </h1>
+        <h1 v-else>
+            No Restaurant Available at the moment.
+        </h1>
         <div v-for="restaurant in restaurants" v-bind:key="restaurant.IdRestaurant">
             <el-card>
                 <template #header>
@@ -20,9 +26,13 @@
     <!-- RESTAURANT MENUS AND ORDERS -->
     <div v-else>
         <!-- Menus -->
-        <div v-if="restaurantMenus">
-            <h1>Available menus</h1>
-        </div>
+        <el-row v-if="restaurantMenus">
+            <el-col :span="6" style="margin: auto;">
+                <el-page-header v-on:back="goBack" content="Restaurants"></el-page-header>
+            </el-col>
+            <el-col :span="12"><h1>Available menus</h1></el-col>
+            <el-col :span="6"></el-col>
+        </el-row>
         <div v-for="menu in restaurantMenus" v-bind:key="menu._id">
             <el-card>
                 <template #header>
@@ -111,6 +121,9 @@ const ClientHome = defineComponent({
                     this.placedOrders = orders;
                 })
                 .catch(() => this.placedOrders = null)
+        },
+        goBack() {
+            this.restaurantMenus = null;
         }
     }
 });
