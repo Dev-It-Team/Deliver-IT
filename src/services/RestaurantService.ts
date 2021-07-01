@@ -1,80 +1,71 @@
 // src/services/RestaurantService.js
 import axios from 'axios';
-const url = 'http://localhost:3000/';
+const url = 'http://localhost:3000/restaurants/';
 
 export default {
     createRestaurant(newRestaurant: Object): Promise<any> { 
         return axios
-            .post(url + 'restaurants/', newRestaurant)
+            .post(url, newRestaurant)
             .then(response => response.data);
     },
     updateRestaurant(newRestaurant: Object, idRestaurant: string): Promise<any> { 
         return axios
-            .put(url + 'restaurants/' + idRestaurant, newRestaurant)
-            .then(response => response.data);
-    },
-    uploadFile(newFile: Object): Promise<any> { 
-        return axios
-            .post(url + 'upload/', newFile, {
-                headers: {
-                  'Content-Type': 'multipart/form-data'
-                }
-            })
+            .put(url + idRestaurant, newRestaurant)
             .then(response => response.data);
     },
     getRestaurants(): Promise<any> {
         return axios
-            .get(url + 'restaurants/')
+            .get(url)
             .then(response => response.data);
     },
-    getRestaurant(idRestaurant: Object): Promise<any> {
+    getRestaurant(idRestaurant: string): Promise<any> {
         return axios
-            .get(url + 'restaurants/', idRestaurant)
+            .get(url + 'id/' + idRestaurant)
             .then(response => response.data);
     },
     getMyRestaurant(idUser: string): Promise<any> {
         return axios
-            .get(url + 'restaurants/' + idUser)
+            .get(url + idUser)
             .then(response => response.data);
     },
     getRestaurantProducts(idRestaurant: string): Promise<any> {
         return axios
-            .get(url + 'restaurants/' + idRestaurant + '/products')
+            .get(url + idRestaurant + '/products')
             .then(response => response.data);
     },
     createProduct(idRestaurant: string, newProduct: Object): Promise<any> {
         return axios
-            .post(url + 'restaurants/' + idRestaurant + '/products', newProduct)
+            .post(url + idRestaurant + '/products', newProduct)
             .then(response => response.data);
     },
     updateProduct(idRestaurant: string, newProduct: Object, idProduct: string): Promise<any> {
         return axios
-            .put(url + 'restaurants/' + idRestaurant + '/products/' + idProduct, newProduct)
+            .put(url + idRestaurant + '/products/' + idProduct, newProduct)
             .then(response => response.data);
     },
     deleteProduct(idRestaurant: string, idProduct: string): Promise<any> {
         return axios
-            .delete(url + 'restaurants/' + idRestaurant + '/products/' + idProduct)
+            .delete(url + idRestaurant + '/products/' + idProduct)
             .then(response => response.data);
     },
     getRestaurantMenus(idRestaurant: string): Promise<any> {
         return axios
-            .get(url + 'restaurants/' + idRestaurant + '/menus')
+            .get(url + idRestaurant + '/menus')
             .then(response => response.data);
     },
     createMenu(idRestaurant: string, newMenu: Object): Promise<any> {
         return axios
-            .post(url + 'restaurants/' + idRestaurant + '/menus', newMenu)
+            .post(url + idRestaurant + '/menus', newMenu)
             .then(response => response.data);
     },
     updateMenu(idRestaurant: string, newMenu: Object, idMenu: string): Promise<any> {
         return axios
-            .post(url + 'restaurants/' + idRestaurant + '/menus/' + idMenu, newMenu)
+            .post(url + idRestaurant + '/menus/' + idMenu, newMenu)
             .then(response => response.data);
     },
     deleteMenu(idRestaurant: string, idMenu: Object): Promise<any> {
         return axios
-            .delete(url + 'restaurants/' + idRestaurant + '/menus/' + idMenu)
+            .delete(url + idRestaurant + '/menus/' + idMenu)
             .then(response => response.data);
     },
 };

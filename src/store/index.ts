@@ -6,7 +6,7 @@ import { User } from '@/interfaces/IUser';
 const getDefaultState = () => {
     return {
         token: '',
-        user: {}
+        user: {} as User
     };
 };
 

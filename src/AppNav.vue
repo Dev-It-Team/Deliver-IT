@@ -1,6 +1,6 @@
 <template>
     <el-row :gutter="20" class="header">
-        <el-col :span="6"><img alt="Banner from Mc'Allans" src="./assets/Banner.jpg" class="logo"></el-col>
+        <el-col :span="6"><img alt="Deliver'IT icon" src="./assets/Banner.png" class="logo"></el-col>
             <el-col :span="6" v-if="isRestaurant"><router-link to="/restaurants" class="grid-content">Restaurant Page</router-link></el-col>
             <el-col :span="6" v-else-if="isDeliver"><router-link to="/deliveries" class="grid-content">Deliver Page</router-link></el-col>
             <el-col :span="6" v-else-if="logged"><router-link to="/clients" class="grid-content">Purchase Page</router-link></el-col>
@@ -8,7 +8,7 @@
         <el-col :span="6"><router-link to="/about" class ="grid-content">About Us / Your Data</router-link></el-col>
         
         <el-col :span="6" v-if="logged">
-            <el-dropdown>
+            <el-dropdown class="account">
                 <span class="el-dropdown-link">
                     My Account<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
@@ -80,14 +80,22 @@
     // export default AppNav;
 </script>
 
-<style scoped>
+<style>
     .header {
         margin: 5px;
     }
 
+    .header > .el-col {
+        margin: auto;
+    }
+
     .logo {
-        height: 75px;
-        width: 250px;
+        max-width: 60px;
+        float: left;
+    }
+
+    .account {
+        float: right !important;
     }
 
     .el-dropdown-link:hover {

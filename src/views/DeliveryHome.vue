@@ -9,6 +9,11 @@
     <br>
     <DeliverUpdate v-bind:deliver="deliver" v-on:forceReload="reload"/>
 
+    <div v-if="ordersAvailable">
+      <div v-for="order in ordersAvailable" v-bind:key="order._id">
+        <Order :order="order"/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -17,18 +22,21 @@
   import DeliverCreation from '@/components/DeliverCreation.vue';
   import DeliverService from '@/services/DeliverService';
   import DeliverUpdate from '@/components/DeliverUpdate.vue';
+  import Order from '@/components/Order.vue';
   import { ElMessage } from 'element-plus';
 
   const DeliveryHome = defineComponent({
     name: "DeliveryHome",
     data() {
       return {
-        deliver: null
+        deliver: null as any,
+        ordersAvailable: null as any
       }
     },
     components: {
       DeliverCreation,
-      DeliverUpdate
+      DeliverUpdate,
+      Order
     },
     created() {
       document.title = "Delivers Home";
@@ -39,6 +47,12 @@
         
         if (result) {
           this.deliver = result;
+
+          const orders = await DeliverService.getOrders(this.deliver.IdDeliveryDriver);
+
+          if (orders.length > 0) {
+            this.ordersAvailable = orders;
+          }
         }
       }
     },

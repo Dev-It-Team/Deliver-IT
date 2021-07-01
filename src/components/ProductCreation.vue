@@ -30,6 +30,7 @@
     import { defineComponent } from 'vue';
     import axios, { AxiosResponse } from 'axios';
     import RestaurantsService from '@/services/RestaurantService';
+    import UploadService from '@/services/UploadService';
     import { ElMessage } from 'element-plus';
 
   const ProductCreation = defineComponent({
@@ -136,7 +137,7 @@
                 try {
 
                     this.$emit('forceReload');
-                    const uploaded = await RestaurantsService.uploadFile(formData);
+                    const uploaded = await UploadService.uploadFile(formData);
                     ElMessage.success(`Product created!`);
                 } catch(error) {
                     ElMessage.error('Product file can\'t be uploaded');
