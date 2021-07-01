@@ -124,7 +124,7 @@
                 Products: this.ruleForm.menuProductsChosen
             };
             try {
-                const created = await RestaurantsService.createMenu(this.menu.IdRestaurant, newMenu);
+                const created = await RestaurantsService.updateMenu(this.menu.IdRestaurant, newMenu, this.menu._id);
 
                 try {
                     const uploaded = await UploadService.uploadFile(formData);

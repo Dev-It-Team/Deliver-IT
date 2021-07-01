@@ -60,7 +60,7 @@ export default {
     },
     updateMenu(idRestaurant: string, newMenu: Object, idMenu: string): Promise<any> {
         return axios
-            .post(url + idRestaurant + '/menus/' + idMenu, newMenu)
+            .put(url + idRestaurant + '/menus/' + idMenu, newMenu)
             .then(response => response.data);
     },
     deleteMenu(idRestaurant: string, idMenu: Object): Promise<any> {
