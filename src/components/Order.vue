@@ -1,8 +1,8 @@
 <template>
-    <p>
-        This command is available: {{ order.Price }} € with {{ order.Products.Lenth }} products. <div v-if="restaurant"> {{ restaurant.NameRestaurant }} from {{ restaurantAddress }} to client {{ userAddress }}</div>
+    <p v-if="restaurant">
+        This command is available: {{ order.Price }} € with {{ order.Products.length }} products. {{ restaurant.NameRestaurant }} from {{ restaurantAddress }} to client {{ userAddress }}
     </p>
-    <el-button type="primary">Take this command</el-button>
+    <el-button type="primary" v-on:click="$emit('on-take-order')">Take this command</el-button>
 </template>
 
 <script lang="ts">
@@ -23,6 +23,7 @@
         props: {
             order: null as any,
         },
+        emits: ['on-take-order'],
         async mounted() {
             const restaurant = await RestaurantService.getRestaurant(this.order.IdRestaurant);
 

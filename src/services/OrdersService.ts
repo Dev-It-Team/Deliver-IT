@@ -12,4 +12,9 @@ export default {
             .get(url + idUser + "/orders/")
             .then(response => response.data);
     },
+    acceptOrder(updatedOrder: any): Promise<any> {
+        return axios
+            .put(url + updatedOrder.IdUser + "/orders/"  + updatedOrder._id, updatedOrder)
+            .then(response => response.data);
+    }
 }

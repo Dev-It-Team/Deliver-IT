@@ -18,7 +18,7 @@
 
     <div v-if="ordersAvailable">
       <div v-for="order in ordersAvailable" v-bind:key="order._id">
-        <Order :order="order"/>
+        <Order :order="order" v-on:on-take-order="onTakeOrder(order)" />
       </div>
     </div>
   </div>
@@ -28,6 +28,7 @@
   import { defineComponent } from 'vue'
   import DeliverCreation from '@/components/DeliverCreation.vue';
   import DeliverService from '@/services/DeliverService';
+  import OrdersService from '@/services/OrdersService';
   import DeliverUpdate from '@/components/DeliverUpdate.vue';
   import Order from '@/components/Order.vue';
   import { ElMessage } from 'element-plus';
@@ -63,6 +64,13 @@
             this.ordersAvailable = orders;
           }
         }
+      },
+      async onTakeOrder(order: any) {
+          order.Status = 2;
+          await OrdersService.acceptOrder(order)
+            .then(() => ElMessage.success("Command taken! Head to the restaurant."))
+            .catch(() => ElMessage.error("Something went wrong, command not taken."))
+            .finally(() => this.reload());
       }
     },
     async mounted() {
