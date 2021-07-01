@@ -25,7 +25,7 @@ export default {
     },
     getMyRestaurant(idUser: string): Promise<any> {
         return axios
-            .get(url + '/' + idUser)
+            .get(url + 'id/' + idUser)
             .then(response => response.data);
     },
     getRestaurantProducts(idRestaurant: string): Promise<any> {
