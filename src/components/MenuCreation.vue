@@ -37,6 +37,7 @@
 <script lang="ts">
     import axios, { AxiosResponse } from 'axios';
     import RestaurantsService from '@/services/RestaurantService';
+    import UploadService from '@/services/UploadService';
     import { ElMessage } from 'element-plus';
     import { defineComponent } from '@vue/runtime-core';
 
@@ -126,7 +127,7 @@
                 const created = await RestaurantsService.createMenu(this.id, newMenu);
 
                 try {
-                    const uploaded = await RestaurantsService.uploadFile(formData);
+                    const uploaded = await UploadService.uploadFile(formData);
                     ElMessage.success(`Menu created!`);
                     this.$emit('forceReload');
                 } catch(error) {

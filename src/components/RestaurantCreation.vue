@@ -21,6 +21,7 @@
     import { defineComponent } from 'vue';
     import axios, { AxiosResponse } from 'axios';
     import RestaurantsService from '@/services/RestaurantService';
+    import UploadService from '@/services/UploadService';
     import { ElMessage } from 'element-plus';
 
   const RestaurantCreation = defineComponent({
@@ -91,7 +92,7 @@
             try {
                 const created = await RestaurantsService.createRestaurant(newRestaurant);
 
-                const uploaded = await RestaurantsService.uploadFile(formData);
+                const uploaded = await UploadService.uploadFile(formData);
                 ElMessage.success(`Restaurant created!`);
                 this.$emit('forceReload');
             }
