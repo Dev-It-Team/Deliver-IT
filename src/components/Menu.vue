@@ -20,7 +20,7 @@
     <el-button v-on:click="beginUpdate" type="primary">Update Menu</el-button>
     <br>
     <br>
-    <MenuUpdate v-if="hidden" :allProducts="allProducts" :menu="menu" v-on:forceReload="$emit('forceReload')"/>
+    <MenuUpdate v-if="hidden" :allProducts="allProducts" :menu="menu" v-on:forceReload="reloadForce"/>
 </template>
 
 <script lang="ts">
@@ -46,6 +46,9 @@
             beginUpdate() {
                 this.hidden = !this.hidden;
             },
+            reloadForce() {
+                this.$emit('forceReload');
+            }
         }
     });
     export default Menu;
