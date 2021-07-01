@@ -1,0 +1,14 @@
+// devtools.ts used for the chrome devtools extension in dev mode
+import { App, Plugin } from 'vue';
+
+const devtools: Plugin = {
+    install(app: App) {
+        // @ts-ignore
+        if (process.env.NODE_ENV === 'development' && window.__VUE_DEVTOOLS_GLOBAL_HOOK__) {
+            // @ts-ignore
+            window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = app;
+        }
+    },
+};
+
+export { devtools };
