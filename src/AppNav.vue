@@ -28,14 +28,14 @@
 <script lang="ts">
     import { defineComponent } from 'vue'
     import useClipboard from 'vue-clipboard3'
-    import AuthService from './services/AuthService';
+    import router from '@/router/index'
 
-    export default defineComponent({
+    const AppNav = defineComponent({
         name: "AppNav",
         methods: {
             logOut() {
                 this.$store.dispatch('logout');
-                this.$router.push({ name: 'Login', query: { redirect: '/' }});
+                router.push({ name: 'Login', query: { redirect: '/' }});
             },
             async copyPatronageCode() {
                 try {
@@ -46,7 +46,7 @@
                 }
             },
             loadAccountPage() {
-                this.$router.push({ name: 'Home', query: { redirect: '/home' } });
+                router.push({ name: 'Home', query: { redirect: '/home' } });
             }
         },
         computed: {
@@ -77,7 +77,7 @@
         }
     });
 
-    // export default AppNav;
+    export default AppNav;
 </script>
 
 <style>

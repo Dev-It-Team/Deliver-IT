@@ -12,16 +12,18 @@
     </el-container>
 </template>
 
-<script>
+<script lang="ts">
 import AppNav from './AppNav.vue'
-import Footer from '@devitteam/footer'
+import { defineComponent } from 'vue'
+// import Footer from '@devitteam/footer'
 
-export default {
+const App = defineComponent({
     components: {
         AppNav,
-        Footer,
+        // Footer,
     },
-}
+})
+export default App;
 </script>
 
 <style>
