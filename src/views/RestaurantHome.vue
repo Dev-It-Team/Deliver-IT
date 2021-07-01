@@ -32,7 +32,7 @@
       </h2>
 
       <div v-for="menu in menusList" v-bind:key="menu._id">
-        <Menu v-bind:menu="menu" :allProducts="productsList" v-on:delete-menu="deleteMenu(menu._id)"/>
+        <Menu v-bind:menu="menu" :allProducts="productsList" v-on:delete-menu="deleteMenu(menu)"/>
       </div>
     </div>
   </div>
