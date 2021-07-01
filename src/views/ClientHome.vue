@@ -1,5 +1,10 @@
 <template>
     <div v-loading="loading"></div>
+    <!-- Orders -->
+    <div v-for="placedOrder in placedOrders" v-bind:key="placedOrder._id">
+        <h1>Order at {{ placedOrder.RestaurantName }}</h1>
+        <OrdersSteps :orderData="placedOrder" />
+    </div>
     <!-- RESTAURANTS LIST -->
     <div v-if="!restaurantMenus">
         <div v-for="restaurant in restaurants" v-bind:key="restaurant.IdRestaurant">
@@ -14,11 +19,6 @@
     </div>
     <!-- RESTAURANT MENUS AND ORDERS -->
     <div v-else>
-        <!-- Orders -->
-        <div v-if="placedOrders">
-            <h1>Your orders at {{ currentRestaurantName }}</h1>
-        </div>
-        <OrdersSteps v-for="placedOrder in placedOrders" v-bind:key="placedOrder._id" :orderData="placedOrder" />
         <!-- Menus -->
         <div v-if="restaurantMenus">
             <h1>Available menus</h1>
@@ -58,7 +58,6 @@ const ClientHome = defineComponent({
             loading: true,
             restaurants: null as any, // Restaurant list
             restaurantMenus: null as any, // Restaurant details
-            currentRestaurantName: "",
             placedOrders: null as any, // Current order content
         }
     },
@@ -67,15 +66,15 @@ const ClientHome = defineComponent({
     },
     async mounted() {
         this.restaurants = await RestaurantService.getRestaurants()
-            .finally(() => this.loading = false);
+            .finally(() => {
+                this.loading = false;
+                this.getOrders();
+            });
     },
     methods: {
         async loadRestaurantMenus(id: string) {
             await RestaurantService.getRestaurantMenus(id)
-                .then((response) => {
-                    this.restaurantMenus = response;
-                    this.getOrders()
-                })
+                .then((response) => this.restaurantMenus = response)
                 .catch(() => this.restaurantMenus = null)
         },
         async placeOrder(menu: any) {
@@ -96,8 +95,22 @@ const ClientHome = defineComponent({
         },
         async getOrders() {
             await OrdersService.getOrders(store.state.user.IdUser)
-                        .then((orders) => this.placedOrders = orders)
-                        .catch(() => this.placedOrders = null)
+                .then(async (orders) => {
+                    // Get Restaurant's name
+                    for (let rIndex = 0; rIndex < this.restaurants.length; rIndex++) {
+                        console.log(this.restaurants[rIndex])
+                        for (let oIndex = 0; oIndex < orders.length; oIndex++) {
+                            console.log(this.restaurants[rIndex].IdRestaurant, orders[oIndex].IdRestaurant)
+                            if (this.restaurants[rIndex].IdRestaurant == orders[oIndex].IdRestaurant)
+                            {
+                                orders[oIndex]["RestaurantName"] = this.restaurants[rIndex].NameRestaurant;
+                                console.log(this.restaurants[rIndex])
+                            }
+                        }
+                    }
+                    this.placedOrders = orders;
+                })
+                .catch(() => this.placedOrders = null)
         }
     }
 });

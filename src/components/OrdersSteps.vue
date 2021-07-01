@@ -1,8 +1,6 @@
 <template>
-<el-card>
-    <template #header>
-        Placed at {{ orderData.StartDateTime }} - {{ orderData.Price }}€
-    </template>
+<el-card :body-style="{ padding: '20px 0 0 0' }">
+    Placed at {{ orderData.StartDateTime }} - {{ orderData.Price }}€
     <el-steps :active="orderData.Status || 0" finish-status="success" simple style="margin-top: 20px">
         <el-step title="Order Placed" ></el-step>
         <el-step title="Order in preparation" ></el-step>
@@ -28,3 +26,9 @@ const OrderSteps = defineComponent({
 });
 export default OrderSteps;
 </script>
+
+<style>
+el-card > .el-card__body {
+    padding: 20px 0 0 0 !important;
+}
+</style>
