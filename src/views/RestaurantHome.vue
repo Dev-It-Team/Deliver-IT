@@ -2,6 +2,11 @@
   <div v-loading="loading"></div>
   <RestaurantCreation v-if="!restaurant && !loading" v-on:forceReload="reload"/>
   <div v-else-if="restaurant && !loading">
+    <div v-if="ordersAvailable">
+      <div v-for="order in ordersAvailable" v-bind:key="order._id">
+        <Order :order="order" v-on:on-take-order="onTakeOrder(order)" />
+      </div>
+    </div>
     <br>
     <RestaurantUpdate v-bind:restaurantId="restaurant.IdRestaurant" v-on:forceReload="reload"/>
     <br>
@@ -47,7 +52,10 @@
   import Product from '@/components/Product.vue';
   import Menu from '@/components/Menu.vue';
   import RestaurantService from '@/services/RestaurantService';
+  import DeliverService from '@/services/DeliverService';
   import { ElMessage } from 'element-plus';
+  import Order from '@/components/Order.vue';
+  import OrdersService from '@/services/OrdersService';
 
   const RestaurantHome = defineComponent({
     name: "RestaurantHome",
@@ -58,6 +66,7 @@
         banner: "",
         restaurant: null as any,
         loading: true,
+        ordersAvailable: null as any
       }
     },
     components: {
@@ -66,7 +75,8 @@
       Menu,
       ProductCreation,
       MenuCreation,
-      RestaurantUpdate
+      RestaurantUpdate,
+      Order
     },
     created() {
       document.title = "Restaurants Home";
@@ -107,7 +117,20 @@
           if (menus.length > 0) {
             this.menusList = menus;
           }
+
+          const orders = await DeliverService.getOrders(this.restaurant.IdRestaurant);
+
+          if (orders.length > 0) {
+            this.ordersAvailable = orders;
+          }
         }
+      },
+      async onTakeOrder(order: any) {
+          order.Status = 1;
+          await OrdersService.acceptOrder(order)
+            .then(() => ElMessage.success("Command taken! The delivery driver will come soon."))
+            .catch(() => ElMessage.error("Something went wrong, command not taken."))
+            .finally(() => this.reload());
       }
     },
     async mounted() {

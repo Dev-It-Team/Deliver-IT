@@ -1,7 +1,7 @@
 <template>
 <el-card :body-style="{ padding: '20px 0 0 0' }">
-    Placed at {{ orderData.StartDateTime }} - {{ orderData.Price }}€
-    <el-steps :active="orderData.Status || 0" finish-status="success" simple style="margin-top: 20px">
+    {{ orderData.StartDateTime }} - {{ orderData.Price }}€
+    <el-steps :active="parseInt(orderData.Status) || 0" finish-status="success" simple style="margin-top: 20px">
         <el-step title="Order Placed" ></el-step>
         <el-step title="Order in preparation" ></el-step>
         <el-step title="Order in delivery" ></el-step>
