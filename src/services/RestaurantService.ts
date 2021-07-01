@@ -29,7 +29,7 @@ export default {
     },
     getRestaurant(idRestaurant: string): Promise<any> {
         return axios
-            .get(url + idRestaurant)
+            .get(url + 'id/' + idRestaurant)
             .then(response => response.data);
     },
     getMyRestaurant(idUser: string): Promise<any> {

@@ -18,4 +18,9 @@ export default {
             .get(url + 'deliveryDrivers/' + idUser)
             .then(response => response.data);
     },
+    getOrders(idDeliver: string): Promise<any> {
+        return axios
+            .get(url + 'orders/' + idDeliver)
+            .then(response => response.data);
+    },
 };
