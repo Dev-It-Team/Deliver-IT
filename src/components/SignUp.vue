@@ -86,7 +86,8 @@
                 }
             };
             const validatePatronageCode = (rule: any, value: string, callback: Function) => {
-                if (value) return /[\w]/.test(value);
+                if (value === "" || !value) return true;
+                else return /[\w]/.test(value);
             };
             return {
                 ruleForm: {

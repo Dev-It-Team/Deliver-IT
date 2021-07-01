@@ -67,7 +67,6 @@
                             { validator: validateName, message: "Wrong menu name format", trigger: 'blur' }
                         ],
                         menuDescription: [
-                            { required: false },
                             { validator: validateName, message: "Wrong menu description format", trigger: 'blur' }
                         ],
                         menuPicture: [
