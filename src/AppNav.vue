@@ -1,6 +1,6 @@
 <template>
     <el-row :gutter="20" class="header">
-        <el-col :span="6"><img alt="Banner from Mc'Allans" src="./assets/Banner.png" class="logo"></el-col>
+        <el-col :span="6"><img alt="Deliver'IT icon" src="./assets/Banner.png" class="logo"></el-col>
             <el-col :span="6" v-if="isRestaurant"><router-link to="/restaurants" class="grid-content">Restaurant Page</router-link></el-col>
             <el-col :span="6" v-else-if="isDeliver"><router-link to="/deliveries" class="grid-content">Deliver Page</router-link></el-col>
             <el-col :span="6" v-else-if="logged"><router-link to="/clients" class="grid-content">Purchase Page</router-link></el-col>
