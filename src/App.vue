@@ -15,12 +15,12 @@
 <script lang="ts">
 import AppNav from './AppNav.vue'
 import { defineComponent } from 'vue'
-// import Footer from '@devitteam/footer'
+import Footer from '@devitteam/footer/src/components/Footer.vue'
 
 const App = defineComponent({
     components: {
         AppNav,
-        // Footer,
+        Footer,
     },
 })
 export default App;

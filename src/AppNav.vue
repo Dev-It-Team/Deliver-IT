@@ -29,11 +29,13 @@
     import { defineComponent } from 'vue'
     import useClipboard from 'vue-clipboard3'
     import router from '@/router/index'
+    import AuthService from '@/services/AuthService';
 
     const AppNav = defineComponent({
         name: "AppNav",
         methods: {
-            logOut() {
+            async logOut() {
+                const result = await AuthService.logOutLog(this.$store.getters.getUser.IdUser, { Description: "Disconnected" });
                 this.$store.dispatch('logout');
                 router.push({ name: 'Login', query: { redirect: '/' }});
             },
