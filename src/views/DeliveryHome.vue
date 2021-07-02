@@ -56,7 +56,12 @@
         
         if (result) {
           this.deliver = result;
-          this.average = this.deliver.Note / this.deliver.VoteNb;
+          if (this.deliver.VoteNb == 0) {
+            this.average = 0;
+          }
+          else {
+            this.average = this.deliver.Note / this.deliver.VoteNb;
+          }
 
           const orders = await DeliverService.getOrders(this.deliver.IdDeliveryDriver);
 

@@ -13,6 +13,7 @@
             :key="option.value"
             :label="option"
             :value="option">
+            {{ option }}
             </el-option>
         </el-select>
         <br>
