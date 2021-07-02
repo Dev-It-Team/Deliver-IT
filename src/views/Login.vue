@@ -60,7 +60,9 @@
                 this.$store.dispatch('setUserInfo', user);
 
                 ElMessage.success(`Welcome back! You are logged in as ${user.Email}.`);
-
+                
+                const result = await AuthService.loginLog(this.$store.getters.getUser.IdUser, { Description: "Connected" });
+                console.log(this.$store.getters.isLoggedIn);
                 redirectUser(user);
             }
         },

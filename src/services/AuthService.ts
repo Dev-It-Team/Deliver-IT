@@ -22,5 +22,15 @@ export default {
         return axios
             .put(url + 'users/' + idUser, user)
             .then(response => response.data);
+    },
+    loginLog(idUser: string, description: Object): Promise<any> {
+        return axios
+            .post(url + 'users/' + idUser + '/logs', description)
+            .then(response => response.data);
+    },
+    logOutLog(idUser: string, description: Object): Promise<any> {
+        return axios
+            .post(url + 'users/' + idUser + '/logs', description)
+            .then(response => response.data);
     }
 };
