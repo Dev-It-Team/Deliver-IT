@@ -53,7 +53,13 @@
         methods: {
             beginUpdate() {
                 this.hidden = !this.hidden;
-                this.average = this.menu.Notes / this.menu.VoteNb;
+
+                if (this.menu.VoteNb == 0 || this.menu.VoteNb == null) {
+                        this.average = 0;
+                }
+                else {
+                        this.average = this.menu.Notes / this.menu.VoteNb;
+                }
             },
             reloadForce() {
                 this.$emit('forceReload');

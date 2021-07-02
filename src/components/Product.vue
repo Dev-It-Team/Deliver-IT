@@ -62,7 +62,13 @@
         methods: {
             beginUpdate() {
                 this.hidden = !this.hidden;
-                this.average = this.product.Notes / this.product.VoteNb;
+
+                if (this.product.VoteNb == 0 || this.product.VoteNb == null) {
+                    this.average = 0;
+                }
+                else {
+                    this.average = this.product.Notes / this.product.VoteNb;
+                }
             },
         }
     });
